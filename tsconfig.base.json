@@ -15,7 +15,12 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@gnosys/api-interfaces": ["libs/api-interfaces/src/index.ts"]
+      "@gnosys/api-interfaces": ["libs/api-interfaces/src/index.ts"],
+      "@gnosys/auth": ["libs/auth/src/index.ts"],
+      "@gnosys/dto": ["libs/dto/src/index.ts"],
+      "@gnosys/mail": ["libs/mail/src/index.ts"],
+      "@gnosys/schemas": ["libs/schemas/src/index.ts"],
+      "@gnosys/user": ["libs/user/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
