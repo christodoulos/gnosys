@@ -47,20 +47,6 @@ export class User {
 
 export const UserSchema = SchemaFactory.createForClass(User);
 
-UserSchema.pre('save', async function (next) {
-  try {
-    if (!this.isModified('password')) {
-      return next();
-    }
-    // const hashed = await bcrypt.hash(this['password'], 10);
-    const hashed = await bcrypt.hash(UserSchema.password, 10);
-    this['password'] = hashed;
-    return next();
-  } catch (err) {
-    return next(err);
-  }
-});
-
 UserSchema.virtual('uid').get(function () {
   return this._id.toHexString();
 });

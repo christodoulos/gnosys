@@ -7,13 +7,13 @@ import { JwtService } from '@nestjs/jwt';
 import { sign } from 'jsonwebtoken';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import Cryptr from 'cryptr';
-// import { User } from '@gnosys/users';
-import { User } from '@gnosys/schemas';
-import { RefreshToken } from '@gnosys/api-interfaces';
 import { v4 } from 'uuid';
 import { getClientIp } from 'request-ip';
 import { Request } from 'express';
+import Cryptr = require('cryptr');
+
+import { User } from '@gnosys/schemas';
+import { RefreshToken } from '@gnosys/api-interfaces';
 
 interface JwtPayload {
   userId: string;

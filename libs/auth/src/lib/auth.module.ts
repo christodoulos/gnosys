@@ -36,6 +36,9 @@ import * as bcrypt from 'bcrypt';
         },
       },
     ]),
+    MongooseModule.forFeature([
+      { name: 'RefreshToken', schema: RefreshTokenSchema },
+    ]),
     PassportModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
