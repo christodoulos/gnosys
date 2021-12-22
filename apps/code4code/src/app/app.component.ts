@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Message } from '@gnosys/api-interfaces';
 
-import { basicSetup } from '@codemirror/basic-setup';
-import { python } from '@codemirror/lang-python';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'gnosys-root',
@@ -11,10 +10,18 @@ import { python } from '@codemirror/lang-python';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
+  form: FormGroup;
+
   hello$ = this.http.get<Message>('/api/hello');
-  config = {
-    doc: 'print("Hello World!")',
-    extensions: [basicSetup, python()],
-  };
-  constructor(private http: HttpClient) {}
+  code = 'import os';
+  constructor(private http: HttpClient, private readonly fb: FormBuilder) {
+    this.form = this.fb.group({
+      editor: [
+        {
+          value: this.code,
+          disabled: false,
+        },
+      ],
+    });
+  }
 }
