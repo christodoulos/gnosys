@@ -1,10 +1,8 @@
 import { forwardRef, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import {
-  ControlValueAccessor,
-  NgControl,
+  FormsModule,
+  ReactiveFormsModule,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 
@@ -18,7 +16,7 @@ import { CodemirrorComponent } from './codemirror/codemirror.component';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => CodemirrorComponent),
-      // multi: true,
+      multi: true,
     },
   ],
 })

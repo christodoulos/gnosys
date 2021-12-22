@@ -11,13 +11,8 @@ import {
   ViewChild,
   Optional,
   Self,
-  forwardRef,
 } from '@angular/core';
-import {
-  ControlValueAccessor,
-  NgControl,
-  NG_VALUE_ACCESSOR,
-} from '@angular/forms';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { basicSetup, EditorState } from '@codemirror/basic-setup';
 import { Compartment, Extension, Text, Transaction } from '@codemirror/state';
 import { EditorView, ViewUpdate } from '@codemirror/view';
@@ -32,18 +27,10 @@ export type EditorStateConfig = Parameters<typeof EditorState.create>[0];
   templateUrl: './codemirror.component.html',
   styleUrls: ['./codemirror.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  // providers: [
-  //   {
-  //     provide: NG_VALUE_ACCESSOR,
-  //     useExisting: forwardRef(() => CodemirrorComponent),
-  //     // multi: true,
-  //   },
-  // ],
 })
 export class CodemirrorComponent
   implements ControlValueAccessor, AfterViewInit, OnDestroy
 {
-  @Output() editor!: EditorView;
   @ViewChild('codemirrorhost', { static: false }) codemirrorHost?: ElementRef;
 
   stateChanges: Subject<void> = new Subject<void>();
