@@ -1,3 +1,3 @@
-export * from './forgot-password.interface';
-export * from './refresh-token.interface';
-export * from './user.interface';
+export * from './api/forgot-password.interface';
+export * from './api/refresh-token.interface';
+export * from './api/user.interface';
