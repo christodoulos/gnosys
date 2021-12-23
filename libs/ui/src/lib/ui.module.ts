@@ -7,11 +7,12 @@ import {
 } from '@angular/forms';
 
 import { CodemirrorComponent } from './codemirror/codemirror.component';
+import { FormSimpleTopDownComponent } from './form-simple-top-down/form-simple-top-down.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  declarations: [CodemirrorComponent],
-  exports: [CodemirrorComponent],
+  declarations: [CodemirrorComponent, FormSimpleTopDownComponent],
+  exports: [CodemirrorComponent, FormSimpleTopDownComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
