@@ -1,1 +1,0 @@
-export { arrowsIcons } from './arrows';
