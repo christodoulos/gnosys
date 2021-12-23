@@ -101,7 +101,7 @@
     "@ngneat/svg-generator": "^2.0.0"
   },
   "svgGenerator": {
-    "outputPath": "./libs/ui/src/svg",
+    "outputPath": "./libs/ui/src/lib/svg",
     "prefix": "app",
     "srcPath": "./libs/ui/src/lib/svg/assets",
     "svgoConfig": {
