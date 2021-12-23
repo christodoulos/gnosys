@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Message } from '@gnosys/api-interfaces';
 
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -12,9 +10,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class AppComponent {
   form: FormGroup;
 
-  hello$ = this.http.get<Message>('/api/hello');
   code = 'import os';
-  constructor(private http: HttpClient, private readonly fb: FormBuilder) {
+  constructor(private readonly fb: FormBuilder) {
     this.form = this.fb.group({
       editor: [
         {

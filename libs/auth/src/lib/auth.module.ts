@@ -5,7 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema, RefreshTokenSchema } from '@gnosys/schemas';
-import { User } from '@gnosys/api-interfaces';
+import { User } from '@gnosys/interfaces';
 import * as bcrypt from 'bcrypt';
 
 @Module({

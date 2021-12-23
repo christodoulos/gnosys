@@ -13,7 +13,7 @@ import { Request } from 'express';
 import Cryptr = require('cryptr');
 
 import { User } from '@gnosys/schemas';
-import { RefreshToken } from '@gnosys/api-interfaces';
+import { RefreshToken } from '@gnosys/interfaces';
 
 interface JwtPayload {
   userId: string;
