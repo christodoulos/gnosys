@@ -7,7 +7,8 @@
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "generate-icons": "svg-generator"
   },
   "private": true,
   "dependencies": {
@@ -31,6 +32,7 @@
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/serve-static": "^2.2.2",
     "@ngneat/reactive-forms": "^4.0.2",
+    "@ngneat/svg-icon": "^4.0.2",
     "@nrwl/angular": "13.3.9",
     "@sendgrid/mail": "^7.6.0",
     "bcrypt": "^5.0.1",
@@ -95,6 +97,18 @@
     "prettier": "^2.3.1",
     "tailwindcss": "^3.0.7",
     "ts-jest": "27.0.5",
-    "typescript": "~4.4.3"
+    "typescript": "~4.4.3",
+    "@ngneat/svg-generator": "^2.0.0"
+  },
+  "svgGenerator": {
+    "outputPath": "./libs/ui/src/svg",
+    "prefix": "app",
+    "srcPath": "./libs/ui/src/lib/svg/assets",
+    "svgoConfig": {
+      "plugins": [
+        "removeDimensions",
+        "cleanupAttrs"
+      ]
+    }
   }
 }
