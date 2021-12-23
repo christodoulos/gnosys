@@ -6,7 +6,6 @@ import {
   Component,
   ElementRef,
   Input,
-  Output,
   OnDestroy,
   ViewChild,
   Optional,
@@ -25,7 +24,6 @@ export type EditorStateConfig = Parameters<typeof EditorState.create>[0];
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'codemirror',
   templateUrl: './codemirror.component.html',
-  styleUrls: ['./codemirror.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CodemirrorComponent
