@@ -47,24 +47,24 @@ export class User {
 
 export const UserSchema = SchemaFactory.createForClass(User);
 
-UserSchema.virtual('uid').get(function () {
-  return this._id.toHexString();
-});
+// UserSchema.virtual('uid').get(function () {
+//   return this._id.toHexString();
+// });
 
-UserSchema.virtual('displayName').get(function () {
-  return `${this.firstName} ${this.lastName}`;
-});
+// UserSchema.virtual('displayName').get(function () {
+//   return `${this.firstName} ${this.lastName}`;
+// });
 
-UserSchema.set('toJSON', {
-  virtuals: true,
-  transform: function (doc, ret) {
-    delete ret._id;
-    delete ret.password;
-    delete ret.id;
-  },
-});
+// UserSchema.set('toJSON', {
+//   virtuals: true,
+//   transform: function (doc, ret) {
+//     delete ret._id;
+//     delete ret.password;
+//     delete ret.id;
+//   },
+// });
 
-UserSchema.set('toObject', { virtuals: true });
+// UserSchema.set('toObject', { virtuals: true });
 
-UserSchema.set('timestamps', true);
-UserSchema.set('versionKey', false);
+// UserSchema.set('timestamps', true);
+// UserSchema.set('versionKey', false);

@@ -23,7 +23,7 @@ import * as bcrypt from 'bcrypt';
               const hashed = await bcrypt.hash(this.password, 10);
               this.password = hashed;
               return next();
-            } catch (err) {
+            } catch (err: any) {
               return next(err);
             }
           });

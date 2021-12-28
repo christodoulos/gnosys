@@ -28,18 +28,24 @@ export class AuthService {
     private readonly refreshTokenModel: Model<RefreshToken>,
     private readonly jwtService: JwtService
   ) {
-    this.cryptr = new Cryptr(process.env.ENCRYPT_JWT_SECRET);
+    this.cryptr = new Cryptr(
+      process.env.ENCRYPT_JWT_SECRET || 'superdupersecret'
+    );
   }
 
   async createAccessToken(userId: string) {
-    const accessToken = sign({ userId }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRATION,
-    });
+    const accessToken = sign(
+      { userId },
+      process.env.JWT_SECRET || 'superdupersecret',
+      {
+        expiresIn: process.env.JWT_EXPIRATION,
+      }
+    );
     // return this.encryptText(accessToken);
     return accessToken;
   }
 
-  async createRefreshToken(req: Request, userId) {
+  async createRefreshToken(req: Request, userId: string) {
     const refreshToken = new this.refreshTokenModel({
       userId,
       refreshToken: v4(),
@@ -78,7 +84,9 @@ export class AuthService {
     if (request.query.token) {
       token = request.body.token.replace(' ', '');
     }
-    const cryptr = new Cryptr(process.env.ENCRYPT_JWT_SECRET);
+    const cryptr = new Cryptr(
+      process.env.ENCRYPT_JWT_SECRET || 'superdupersecret'
+    );
     if (token) {
       try {
         token = cryptr.decrypt(token);
@@ -95,16 +103,16 @@ export class AuthService {
     return this.jwtExtractor;
   }
 
-  getIp(req: Request): string {
+  getIp(req: Request): string | null {
     return getClientIp(req);
   }
 
   getBrowserInfo(req: Request): string {
-    return req.header['user-agent'] || 'XX';
+    return req.headers['user-agent'] || 'XX';
   }
 
-  getCountry(req: Request): string {
-    return req.header['cf-ipcountry'] ? req.header['cf-ipcountry'] : 'XX';
+  getCountry(req: Request): string | string[] {
+    return req.headers['cf-ipcountry'] ? req.headers['cf-ipcountry'] : 'XX';
   }
 
   encryptText(text: string): string {
