@@ -1,0 +1,13 @@
+import { solidUserAddIcon } from './solid-user-add';
+import { solidUserCircleIcon } from './solid-user-circle';
+import { solidUserGroupIcon } from './solid-user-group';
+import { solidUserRemoveIcon } from './solid-user-remove';
+import { solidUserIcon } from './solid-user';
+import { solidUsersIcon } from './solid-users';
+import { userAddIcon } from './user-add';
+import { userCircleIcon } from './user-circle';
+import { userGroupIcon } from './user-group';
+import { userRemoveIcon } from './user-remove';
+import { userIcon } from './user';
+import { usersIcon } from './users';
+export const userIcons = [solidUserAddIcon, solidUserCircleIcon, solidUserGroupIcon, solidUserRemoveIcon, solidUserIcon, solidUsersIcon, userAddIcon, userCircleIcon, userGroupIcon, userRemoveIcon, userIcon, usersIcon];

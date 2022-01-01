@@ -1,8 +1,8 @@
-import { appArrowDownIcon } from './arrow-down';
-import { appArrowLeftIcon } from './arrow-left';
-import { appArrowNarrowDownIcon } from './arrow-narrow-down';
-import { appArrowNarrowLeftIcon } from './arrow-narrow-left';
-import { appArrowNarrowRightIcon } from './arrow-narrow-right';
-import { appArrowNarrowUpIcon } from './arrow-narrow-up';
-import { appArrowRightIcon } from './arrow-right';
-export const arrowsIcons = [appArrowDownIcon, appArrowLeftIcon, appArrowNarrowDownIcon, appArrowNarrowLeftIcon, appArrowNarrowRightIcon, appArrowNarrowUpIcon, appArrowRightIcon];
+import { arrowDownIcon } from './arrow-down';
+import { arrowLeftIcon } from './arrow-left';
+import { arrowNarrowDownIcon } from './arrow-narrow-down';
+import { arrowNarrowLeftIcon } from './arrow-narrow-left';
+import { arrowNarrowRightIcon } from './arrow-narrow-right';
+import { arrowNarrowUpIcon } from './arrow-narrow-up';
+import { arrowRightIcon } from './arrow-right';
+export const arrowsIcons = [arrowDownIcon, arrowLeftIcon, arrowNarrowDownIcon, arrowNarrowLeftIcon, arrowNarrowRightIcon, arrowNarrowUpIcon, arrowRightIcon];

@@ -103,7 +103,7 @@
   },
   "svgGenerator": {
     "outputPath": "./libs/ui/src/lib/svg",
-    "prefix": "app",
+    "prefix": "",
     "srcPath": "./libs/ui/src/lib/svg/assets",
     "svgoConfig": {
       "plugins": [
