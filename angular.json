@@ -560,6 +560,40 @@
       },
       "tags": []
     },
+    "upload": {
+      "root": "libs/upload",
+      "sourceRoot": "libs/upload/src",
+      "projectType": "library",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/upload",
+            "tsConfig": "libs/upload/tsconfig.lib.json",
+            "packageJson": "libs/upload/package.json",
+            "main": "libs/upload/src/index.ts",
+            "assets": ["libs/upload/*.md"]
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/upload/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/upload"],
+          "options": {
+            "jestConfig": "libs/upload/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
     "user": {
       "root": "libs/user",
       "sourceRoot": "libs/user/src",
