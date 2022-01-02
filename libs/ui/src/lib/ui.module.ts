@@ -8,6 +8,7 @@ import {
 
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { userIcons } from '../lib/svg/user';
+import { imsaferIcons } from '../lib/svg/imsafer';
 
 import { CodemirrorComponent } from './codemirror/codemirror.component';
 import { FormSimpleTopDownComponent } from './form-simple-top-down/form-simple-top-down.component';
@@ -20,7 +21,7 @@ import { Sidebar0Component } from './sidebar0/sidebar0.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    SvgIconsModule.forChild([...userIcons]),
+    SvgIconsModule.forChild([...userIcons, ...imsaferIcons]),
   ],
   declarations: [
     CodemirrorComponent,
