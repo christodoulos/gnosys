@@ -311,6 +311,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
+            "browserTarget": "imsafer:build",
             "proxyConfig": "apps/imsafer/proxy.conf.json"
           }
         },

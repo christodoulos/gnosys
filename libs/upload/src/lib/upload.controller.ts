@@ -14,7 +14,7 @@ import { UploadService } from './upload.service';
 export class UploadController {
   constructor(private uploadService: UploadService) {}
 
-  @Post('upload')
+  @Post()
   @UseInterceptors(FileInterceptor('file'))
   uploadFile(@UploadedFile() file: Express.Multer.File) {
     console.log(file);

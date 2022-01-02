@@ -4,7 +4,7 @@ import { UploadController } from './upload.controller';
 import { UploadService } from './upload.service';
 
 @Module({
-  imports: [MulterModule.register({ dest: './upload' })],
+  imports: [MulterModule.register({ dest: '/tmp/upload' })],
   controllers: [UploadController],
   providers: [UploadService],
   exports: [UploadService],

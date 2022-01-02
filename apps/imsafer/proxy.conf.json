@@ -1,9 +1,5 @@
 {
-  "/imsafer-api": {
-    "target": "http://localhost:3333",
-    "secure": false
-  },
-  "/imsafer-api-api": {
+  "/api": {
     "target": "http://localhost:3333",
     "secure": false
   }
