@@ -10,5 +10,5 @@ import { ListItem } from '@gnosys/interfaces';
 })
 export class Sidebar0Component {
   @Input() items: Array<ListItem> = [];
-  @Input() active = 0;
+  @Input() active = 9999;
 }
