@@ -1,9 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  Input,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { ListItem } from '@gnosys/interfaces';
 
 @Component({
@@ -13,10 +8,7 @@ import { ListItem } from '@gnosys/interfaces';
   styleUrls: ['./sidebar0.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Sidebar0Component implements OnInit {
+export class Sidebar0Component {
   @Input() items: Array<ListItem> = [];
   @Input() active = 0;
-  constructor() {}
-
-  ngOnInit(): void {}
 }
