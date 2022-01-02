@@ -10,8 +10,14 @@
     <top-login0 (click)="onClick()"></top-login0>
   </div>
   <div class="mt-2 md:flex">
-    <div class="p-2 w-full mb-2 md:mb-0 md:w-1/4 mr-2 border border-gray-300">
-      Menu
+    <div class="w-full mb-2 md:mb-0 md:w-1/4 mr-2">
+      <sidebar0
+        [items]="[
+          { icon: 'user', text: 'one' },
+          { icon: 'user', text: 'two' }
+        ]"
+        [active]="1"
+      ></sidebar0>
     </div>
     <div class="p-2 w-full md:w-3/4 border border-gray-300">Content</div>
   </div>

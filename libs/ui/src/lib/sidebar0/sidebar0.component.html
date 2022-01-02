@@ -1,0 +1,17 @@
+<div class="text-sm font-semibold">
+  <div class="flex flex-col justify-around">
+    <nav>
+      <a
+        *ngFor="let item of items; let i = index"
+        class="{{
+          i === active
+            ? 'flex items-center py-2 px-8 bg-gray-200 text-gray-700 border-r-4 border-gray-700'
+            : 'flex items-center mt-2 py-2 px-8 text-gray-600 border-r-4 border-white hover:bg-gray-200 hover:text-gray-700 hover:border-gray-700'
+        }}"
+      >
+        <svg-icon [key]="item.icon"></svg-icon>
+        <span class="ml-2 font-medium">{{ item.text }}</span>
+      </a>
+    </nav>
+  </div>
+</div>

@@ -12,7 +12,7 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
-    SvgIconsModule.forRoot({}),
+    SvgIconsModule.forRoot({ sizes: { md: '20px' } }),
     UiModule,
   ],
   providers: [],
