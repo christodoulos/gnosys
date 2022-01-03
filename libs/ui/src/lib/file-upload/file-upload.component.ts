@@ -21,6 +21,7 @@ export class FileUploadComponent implements OnInit {
 
   ngOnInit(): void {
     this.fileInfos = this.service.getFiles();
+    console.log('ngOnInit', this.fileInfos);
   }
 
   selectFile(event: any): void {
