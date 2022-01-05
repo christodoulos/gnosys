@@ -241,7 +241,7 @@ export class UserService {
     forgotPassword: ForgotPasswordDocument
   ) {
     forgotPassword.firstUsed = true;
-    forgotPassword.ipChanged = this.authService.getIp(req);
+    forgotPassword.ipChanged = this.authService.getIp(req) ?? 'XX';
     forgotPassword.browserChanged = this.authService.getBrowserInfo(req);
     forgotPassword.countryChanged = this.authService.getCountry(req);
     await forgotPassword.save();
@@ -274,7 +274,9 @@ export class UserService {
       email: resetPasswordDto.email,
       verified: true,
     });
-    user.password = resetPasswordDto.password;
-    await user.save();
+    if (user) {
+      user.password = resetPasswordDto.password;
+      await user.save();
+    }
   }
 }

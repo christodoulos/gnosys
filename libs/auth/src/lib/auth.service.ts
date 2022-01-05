@@ -111,8 +111,10 @@ export class AuthService {
     return req.headers['user-agent'] || 'XX';
   }
 
-  getCountry(req: Request): string | string[] {
-    return req.headers['cf-ipcountry'] ? req.headers['cf-ipcountry'] : 'XX';
+  getCountry(req: Request): string {
+    return req.headers['cf-ipcountry']?.toString()
+      ? req.headers['cf-ipcountry'].toString()
+      : 'XX';
   }
 
   encryptText(text: string): string {
