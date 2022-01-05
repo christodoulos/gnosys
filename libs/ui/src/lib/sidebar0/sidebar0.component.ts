@@ -1,5 +1,11 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
-import { ListItem } from '@gnosys/interfaces';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
+import { SidebarItem } from '@gnosys/interfaces';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -9,6 +15,15 @@ import { ListItem } from '@gnosys/interfaces';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Sidebar0Component {
-  @Input() items: Array<ListItem> = [];
-  @Input() active = 9999;
+  @Input() items: Array<SidebarItem> | null = [];
+  @Output() selection = new EventEmitter<Array<SidebarItem> | null>();
+
+  emitSelection(selection: SidebarItem) {
+    this.items?.forEach((item) =>
+      item.text === selection.text
+        ? (item.active = true)
+        : (item.active = false)
+    );
+    this.selection.emit(this.items);
+  }
 }
