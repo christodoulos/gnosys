@@ -1,51 +1,57 @@
 import { Process, Processor } from '@nestjs/bull';
 import { Job } from 'bull';
-
-import { exec } from 'child_process';
+import { nanoid } from 'nanoid';
+import { exec as stdExec } from 'child_process';
 import fs = require('fs');
+import util = require('util');
+
+const fsPromises = fs.promises;
+// const exec = util.promisify(require('child_process').exec);
+const exec = util.promisify(stdExec);
+
+async function mkDir(name: string) {
+  try {
+    return await fsPromises.mkdir(name, { recursive: true });
+  } catch (err) {
+    console.error('Error while making directory!', err);
+  }
+}
+
+async function buffer2File(buffer: Buffer, fname: string) {
+  try {
+    fsPromises.writeFile(fname, buffer.toString());
+    console.log('Successful buffer dump to file');
+  } catch (err) {
+    console.error('Error while writing buffer to file!', err);
+  }
+}
+
+async function strengthen(folder: string) {
+  const mcode =
+    "addpath('/usr/local/lib/imsafer'); optimeccentricity('Data'); exit;";
+  try {
+    const { stdout, stderr } = await exec(
+      `/usr/local/bin/matlab -nodesktop -nosplash -noFigureWindows -softwareopengl -batch "${mcode}"`,
+      { cwd: folder }
+    );
+    console.log('stdout:', stdout);
+    console.log('stderr:', stderr);
+  } catch (err) {
+    console.error('Error while running strengthen matlab code!', err);
+  }
+}
 
 @Processor('imsafer-strengthen')
 export class StrengthenConsumer {
   @Process('imsafer-strengthen-job')
-  strengthenDo(job: Job<unknown>) {
-    console.log(1);
-    const randstr = (Math.random() + 1).toString(36).substring(7);
-    const folder = `/tmp/imsafer-${randstr}`;
+  async strengthenDo(job: Job<unknown>) {
+    const randstr = nanoid();
+    job.log(randstr);
+    const folder = `/tmp/imsafer/${randstr}/`;
     const fname = `${folder}/Data.csv`;
     const buffer = Buffer.from(job.data['scase'][0]['buffer']['data']);
-    console.log(buffer);
-    fs.mkdirSync(folder);
-    fs.open(fname, 'w', function (err, fd) {
-      if (err) {
-        throw 'could not open file: ' + err;
-      }
-
-      // write the contents of the buffer, from position 0 to the end, to the file descriptor returned in opening our file
-      fs.write(fd, buffer, 0, buffer.length, null, function (err) {
-        if (err) throw 'error writing file: ' + err;
-        fs.close(fd, function () {
-          console.log('wrote the file successfully');
-        });
-      });
-    });
-    console.log(1);
-    const mcode =
-      "addpath('/usr/local/lib/imsafer'); optimeccentricity('Data'); exit;";
-    exec(
-      `/usr/local/bin/matlab -nodesktop -nosplash -noFigureWindows -softwareopengl -r "${mcode}"`,
-      { cwd: folder },
-      (error, stdout, stderr) => {
-        if (error) {
-          console.log(error.stack);
-          console.log('Error code: ' + error.code);
-          console.log('Signal received: ' + error.signal);
-        }
-        console.log('Child Process STDOUT: ' + stdout);
-        console.log('Child Process STDERR: ' + stderr);
-      }
-    );
-
-    console.log('imsafer strengthen job', job.data);
-    return 99999;
+    await mkDir(folder);
+    await buffer2File(buffer, fname);
+    await strengthen(folder);
   }
 }
