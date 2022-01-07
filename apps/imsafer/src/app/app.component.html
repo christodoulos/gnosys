@@ -12,16 +12,20 @@
   <div class="mt-2 md:flex">
     <div class="w-full mb-2 md:mb-0 md:w-1/4 mr-2">
       <sidebar0
-        [items]="sidebar$ | async"
+        [items]="(sidebar$ | async) || []"
         (selection)="_updateSidebar($event)"
       ></sidebar0>
     </div>
     <div class="w-full md:w-3/4 bg-gray-300">
       <!-- Content -->
       <div class="flex justify-start">
-        <h3 class="pb-2 pr-2 bg-white text-xl font-semibold mb-2">
+        <div class="pb-2 pr-2 bg-white text-xl font-semibold">
           {{ (sidebarActive$ | async)?.text }}
-        </h3>
+        </div>
+        <topbar0
+          [items]="(topbar$ | async) || []"
+          (selection)="_updateTopbar($event)"
+        ></topbar0>
       </div>
       <file-upload></file-upload>
     </div>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { SidebarItem } from '@gnosys/interfaces';
-import { sidebar$, sidebarActive$, updateSidebar } from './ui.repository';
+import { ListItem } from '@gnosys/interfaces';
+import * as UI from './ui.repository';
 
 @Component({
   selector: 'gnosys-root',
@@ -9,13 +9,20 @@ import { sidebar$, sidebarActive$, updateSidebar } from './ui.repository';
 })
 export class AppComponent {
   title = 'imsafer';
-  sidebar$ = sidebar$;
-  sidebarActive$ = sidebarActive$;
-  updateSidebar = updateSidebar;
+  sidebar$ = UI.sidebar$;
+  topbar$ = UI.topbar$;
+  sidebarActive$ = UI.sidebarActive$;
+  updateSidebar = UI.updateSidebar;
+  updateTopbar = UI.updateTopbar;
   onClick() {
     console.log('click');
   }
-  _updateSidebar(sidebar: Array<SidebarItem> | null) {
+
+  _updateSidebar(sidebar: Array<ListItem>) {
     this.updateSidebar(sidebar);
+  }
+
+  _updateTopbar(topbar: Array<ListItem>) {
+    this.updateTopbar(topbar);
   }
 }

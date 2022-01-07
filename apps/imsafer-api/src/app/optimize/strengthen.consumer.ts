@@ -1,13 +1,13 @@
 import { Process, Processor } from '@nestjs/bull';
 import { Job } from 'bull';
 import { nanoid } from 'nanoid';
-import { exec as stdExec } from 'child_process';
+import { exec as stdExec, spawn } from 'child_process';
 import fs = require('fs');
 import util = require('util');
 
 const fsPromises = fs.promises;
-// const exec = util.promisify(require('child_process').exec);
 const exec = util.promisify(stdExec);
+// const spawn = util.promisify(stdSpawn);
 
 async function mkDir(name: string) {
   try {
@@ -26,7 +26,7 @@ async function buffer2File(buffer: Buffer, fname: string) {
   }
 }
 
-async function strengthen(folder: string) {
+async function strengthenExec(folder: string) {
   const mcode =
     "addpath('/usr/local/lib/imsafer'); optimeccentricity('Data'); exit;";
   try {
@@ -41,6 +41,43 @@ async function strengthen(folder: string) {
   }
 }
 
+async function strengthenSpawn(folder: string, job: Job<unknown>) {
+  const mcode =
+    "addpath('/usr/local/lib/imsafer'); optimeccentricity('Data'); exit;";
+
+  const strengthenSpawn = spawn(
+    '/usr/local/bin/matlab',
+    [
+      '-nodesktop',
+      '-nosplash',
+      '-noFigureWindows',
+      '-softwareopengl',
+      '-batch',
+      mcode,
+    ],
+    { cwd: folder }
+  );
+  strengthenSpawn.stdout.on('data', (data) => {
+    // console.log(`stdout: ${data.toString()}`);
+    const regex =
+      /.*Current emin:\W([0-9]*[.][0-9]*).*Remaining decades:\W(.*)/gm;
+    const match = regex.exec(data.toString());
+    if (match) {
+      const percomplete = 2.5 * (40 - parseInt(match[2]));
+      job.progress(percomplete);
+      console.log(`Completed: ${percomplete}%`);
+    }
+  });
+  strengthenSpawn.stderr.on('data', (data) => {
+    console.error(`stderr: ${data.toString()}`);
+    job.failedReason = data.toString();
+  });
+  strengthenSpawn.on('exit', (code) => {
+    if (code !== 0) job.moveToFailed({ message: job.failedReason });
+    console.log(`Child process exited with code: ${code.toString()}`);
+  });
+}
+
 @Processor('imsafer-strengthen')
 export class StrengthenConsumer {
   @Process('imsafer-strengthen-job')
@@ -52,6 +89,6 @@ export class StrengthenConsumer {
     const buffer = Buffer.from(job.data['scase'][0]['buffer']['data']);
     await mkDir(folder);
     await buffer2File(buffer, fname);
-    await strengthen(folder);
+    await strengthenSpawn(folder, job);
   }
 }

@@ -9,12 +9,12 @@ import { ListItem, NavList } from '@gnosys/interfaces';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'sidebar0',
-  templateUrl: './sidebar0.component.html',
-  styleUrls: ['./sidebar0.component.css'],
+  selector: 'topbar0',
+  templateUrl: './topbar0.component.html',
+  styleUrls: ['./topbar0.component.css'],
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Sidebar0Component {
+export class Topbar0Component {
   @Input() items: NavList = [];
   @Output() selection = new EventEmitter<NavList>();
 

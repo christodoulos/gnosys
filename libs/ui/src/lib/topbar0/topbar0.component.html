@@ -1,0 +1,16 @@
+<div class="text-sm font-semibold">
+  <div class="flex flex-row">
+    <div
+      *ngFor="let item of items"
+      class="flex items-center p-2 border-r-4 cursor-pointer  {{
+        item.active
+          ? 'bg-gray-200 text-gray-700 border-gray-700'
+          : 'text-gray-600 border-white hover:bg-gray-200 hover:text-gray-700 hover:border-gray-700'
+      }}"
+      (click)="emitSelection(item)"
+    >
+      <svg-icon [key]="item.icon"></svg-icon>
+      <span class="ml-2 font-medium">{{ item.text }}</span>
+    </div>
+  </div>
+</div>
