@@ -16,13 +16,15 @@ import { Readable } from 'stream';
 
 import { OptimizeProducer } from './optimize.producer';
 import { StrengthenProducer } from './strengthen.producer';
+import { OptimizeService } from './optimize.service';
 
 @Controller('optimize')
 export class OptimizeController {
   constructor(
     @InjectQueue('imsafer-strengthen') private readonly queue: Queue,
     private readonly optimizeProducer: OptimizeProducer,
-    private readonly strengthenProducer: StrengthenProducer
+    private readonly strengthenProducer: StrengthenProducer,
+    private readonly optimizeService: OptimizeService
   ) {}
 
   // @Post('strengthen')
@@ -50,6 +52,11 @@ export class OptimizeController {
   ) {
     console.log(body);
     return this.strengthenProducer.strengthenNew(file, body.name);
+  }
+
+  @Get('strengthen')
+  async getAllStrengthenResults() {
+    return this.optimizeService.findAllStrengthen();
   }
 
   @Get('strengthen/:id')

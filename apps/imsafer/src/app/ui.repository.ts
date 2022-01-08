@@ -1,6 +1,7 @@
 import { Store, createState, withProps, select } from '@ngneat/elf';
 import { NavList } from '@gnosys/interfaces';
 import { map } from 'rxjs';
+import { Router } from '@angular/router';
 
 export interface ImsaferUI {
   sidebar: NavList;
@@ -41,6 +42,7 @@ const topbarOBJ: Topbar = {
     { icon: 'solid-question-mark-circle', text: 'Risk 0', active: true },
     { icon: 'solid-question-mark-circle', text: 'Risk 1', active: false },
   ],
+  Results: [],
 };
 
 const { state, config } = createState(
@@ -61,6 +63,12 @@ export const sidebarActiveText$ = sidebarActive$.pipe(
 );
 
 export const topbar$ = store.pipe(select((state) => state.topbar));
+export const topbarActive$ = store.pipe(
+  select((state) => state.topbar.find((element) => element.active))
+);
+export const topbarActiveText$ = topbarActive$.pipe(
+  map((item) => (item ? item.text : ''))
+);
 
 export function updateSidebar(sidebar: NavList) {
   const sidebarActive = sidebar.find((element) => element.active)?.text || '';

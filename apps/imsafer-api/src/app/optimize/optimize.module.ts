@@ -6,6 +6,7 @@ import { OptimizeProducer } from './optimize.producer';
 import { StrengthenProducer } from './strengthen.producer';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Strengthen, StrengthenSchema } from '@gnosys/schemas';
+import { OptimizeService } from './optimize.service';
 
 @Module({
   imports: [
@@ -20,6 +21,6 @@ import { Strengthen, StrengthenSchema } from '@gnosys/schemas';
     ),
   ],
   controllers: [OptimizeController],
-  providers: [OptimizeProducer, StrengthenProducer],
+  providers: [OptimizeProducer, StrengthenProducer, OptimizeService],
 })
 export class OptimizeModule {}

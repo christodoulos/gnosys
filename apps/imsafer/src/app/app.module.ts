@@ -6,12 +6,24 @@ import { SvgIconsModule } from '@ngneat/svg-icon';
 import { UiModule } from '@gnosys/ui';
 
 import { AppComponent } from './app.component';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { StrengthenComponent } from './strengthen/strengthen.component';
+import { ResultsComponent } from './results/results.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    WelcomeComponent,
+    StrengthenComponent,
+    ResultsComponent,
+  ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
+    RouterModule.forRoot([
+      { path: 'Strengthen', component: StrengthenComponent },
+      { path: 'Results', component: ResultsComponent },
+      { path: '**', component: WelcomeComponent },
+    ]),
     SvgIconsModule.forRoot({
       sizes: { md: '20px' },
     }),
