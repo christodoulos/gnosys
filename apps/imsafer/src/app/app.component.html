@@ -16,10 +16,9 @@
         (selection)="_updateSidebar($event)"
       ></sidebar0>
     </div>
-    <div class="w-full md:w-3/4 bg-gray-300">
-      <!-- Content -->
-      <div class="flex justify-start">
-        <div class="pb-2 pr-2 bg-white text-xl font-semibold">
+    <div class="w-full md:w-3/4 space-y-4">
+      <div class="flex flex-row items-center space-x-2">
+        <div class="bg-white text-xl font-semibold">
           {{ (sidebarActive$ | async)?.text }}
         </div>
         <topbar0
@@ -27,8 +26,11 @@
           (selection)="_updateTopbar($event)"
         ></topbar0>
       </div>
-      <file-upload></file-upload>
+
+      <!-- Content -->
+      <div class="flex justify-start bg-gray-200">
+        <file-upload></file-upload>
+      </div>
     </div>
   </div>
-  <div class="mt-2 p-2 flex items-center border border-gray-300">Footer</div>
 </div>

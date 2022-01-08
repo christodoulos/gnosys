@@ -1,7 +1,7 @@
 export interface ListItem {
-  icon: string;
+  icon?: string;
   text: string;
-  active: boolean;
+  active?: boolean;
 }
 
 export type NavList = Array<ListItem>;

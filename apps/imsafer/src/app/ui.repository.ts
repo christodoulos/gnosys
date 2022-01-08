@@ -7,38 +7,46 @@ export interface ImsaferUI {
   topbar: NavList;
 }
 
+export const SidebarOBJ: NavList = [
+  {
+    icon: 'solid-server',
+    text: 'Robust',
+    active: true,
+  },
+  { icon: 'solid-fire', text: 'Fire Safety', active: false },
+  { icon: 'solid-logout', text: 'Evacuation', active: false },
+  { icon: 'solid-question-mark-circle', text: 'Risk', active: false },
+  { text: 'separator' },
+  { icon: 'calculator', text: 'Results', active: false },
+];
+
 export interface Topbar {
   [key: string]: NavList;
 }
 
-const topbarObj: Topbar = {
+const topbarOBJ: Topbar = {
   Robust: [
     { icon: 'solid-server', text: 'Blast', active: true },
     { icon: 'solid-server', text: 'Strengthen', active: false },
   ],
   'Fire Safety': [
-    { icon: 'solid-fire', text: 'Fire0', active: true },
-    { icon: 'solid-fire', text: 'Fire1', active: false },
+    { icon: 'solid-fire', text: 'Fire 0', active: true },
+    { icon: 'solid-fire', text: 'Fire 1', active: false },
   ],
   Evacuation: [
-    { icon: 'solid-logout', text: 'Evacuation0', active: true },
-    { icon: 'solid-logout', text: 'Evacuation1', active: false },
+    { icon: 'solid-logout', text: 'Evacuation 0', active: true },
+    { icon: 'solid-logout', text: 'Evacuation 1', active: false },
   ],
   Risk: [
-    { icon: 'solid-question-mark-circle', text: 'Risk0', active: true },
-    { icon: 'solid-question-mark-circle', text: 'Risk1', active: false },
+    { icon: 'solid-question-mark-circle', text: 'Risk 0', active: true },
+    { icon: 'solid-question-mark-circle', text: 'Risk 1', active: false },
   ],
 };
 
 const { state, config } = createState(
   withProps<ImsaferUI>({
-    sidebar: [
-      { icon: 'solid-server', text: 'Robust', active: true },
-      { icon: 'solid-fire', text: 'Fire Safety', active: false },
-      { icon: 'solid-logout', text: 'Evacuation', active: false },
-      { icon: 'solid-question-mark-circle', text: 'Risk', active: false },
-    ],
-    topbar: topbarObj['Robust'],
+    sidebar: SidebarOBJ,
+    topbar: topbarOBJ['Robust'],
   })
 );
 
@@ -56,7 +64,7 @@ export const topbar$ = store.pipe(select((state) => state.topbar));
 
 export function updateSidebar(sidebar: NavList) {
   const sidebarActive = sidebar.find((element) => element.active)?.text || '';
-  const topbar = topbarObj[sidebarActive];
+  const topbar = topbarOBJ[sidebarActive];
   store.update((state) => ({
     ...state,
     sidebar,
