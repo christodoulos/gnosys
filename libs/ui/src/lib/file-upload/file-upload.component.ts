@@ -58,11 +58,11 @@ export class FileUploadComponent {
     }
   }
 
-  strengthen(): void {
+  strengthen(caseName: string): void {
     if (this.selectedFiles) {
       const file: File | null = this.selectedFiles.item(0);
       if (file)
-        this.service.upload(file, 'lala').subscribe((data) => {
+        this.service.upload(file, caseName).subscribe((data) => {
           console.log(data);
           this.selectedFiles = undefined;
           this.filenames = [];

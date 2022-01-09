@@ -10,7 +10,19 @@ export class Strengthen {
   name!: string;
 
   @Prop({ default: 0 })
-  jobID!: number;
+  jobID!: string;
+
+  @Prop()
+  timestamp!: Date;
+
+  @Prop()
+  finishedOn!: Date;
+
+  @Prop()
+  processedOn!: Date;
+
+  @Prop()
+  progress!: string;
 }
 
 export const StrengthenSchema = SchemaFactory.createForClass(Strengthen);

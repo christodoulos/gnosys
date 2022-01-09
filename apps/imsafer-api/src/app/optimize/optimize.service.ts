@@ -19,4 +19,28 @@ export class OptimizeService {
   async findAllStrengthen(): Promise<Strengthen[]> {
     return this.model.find().exec();
   }
+
+  async saveStrengthenJob(name: string, jobID: string, timestamp: Date) {
+    const createdJob = new this.model({ name, jobID, timestamp });
+    return await createdJob.save();
+  }
+
+  async updateStrengthenJob(
+    jobID: string,
+    jobInfo: {
+      timestamp?: Date;
+      finishedOn?: Date;
+      processedOn?: Date;
+      progress?: string;
+    }
+  ) {
+    const foundJob = await this.model.findOne({ jobID });
+    if (foundJob) {
+      if (jobInfo.timestamp) foundJob.timestamp = jobInfo.timestamp;
+      if (jobInfo.finishedOn) foundJob.finishedOn = jobInfo.finishedOn;
+      if (jobInfo.processedOn) foundJob.processedOn = jobInfo.processedOn;
+      if (jobInfo.progress) foundJob.progress = jobInfo.progress;
+      await foundJob.save();
+    }
+  }
 }

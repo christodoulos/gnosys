@@ -21,7 +21,7 @@ export class ResultsComponent implements OnInit {
               responseType: 'arraybuffer',
             })
             .subscribe((data) => {
-              this.downLoadFile(data, 'application.zip');
+              this.downLoadFile(data, 'application/zip');
             });
         });
       });

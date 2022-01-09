@@ -1,22 +1,20 @@
 import { InjectQueue } from '@nestjs/bull';
 import { Injectable } from '@nestjs/common';
 import { Queue } from 'bull';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Strengthen, StrengthenDocument } from '@gnosys/schemas';
-import { StrengthenCaseDto } from '@gnosys/dto';
+
+import { OptimizeService } from './optimize.service';
 
 @Injectable()
 export class StrengthenProducer {
   constructor(
-    @InjectModel(Strengthen.name) private model: Model<StrengthenDocument>,
-    @InjectQueue('imsafer-strengthen') private readonly queue: Queue
+    @InjectQueue('imsafer-strengthen') private readonly queue: Queue,
+    private service: OptimizeService
   ) {}
 
   async strengthenNew(scase: Express.Multer.File, name: string) {
     const job = await this.queue.add('imsafer-strengthen-job', { scase });
-    const createdJob = new this.model({ name, jobID: job.id });
-    return await createdJob.save();
-    // return { jobId: job.id };
+    const timestamp = new Date(job.timestamp);
+    await this.service.saveStrengthenJob(name, job.id.toString(), timestamp);
+    return { jobID: job.id };
   }
 }

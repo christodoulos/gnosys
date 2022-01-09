@@ -4,6 +4,10 @@ import { nanoid } from 'nanoid';
 import { spawn } from 'child_process';
 import fs = require('fs');
 import AdmZip = require('adm-zip');
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Strengthen, StrengthenDocument } from '@gnosys/schemas';
+import { OptimizeService } from './optimize.service';
 
 const fsPromises = fs.promises;
 
@@ -24,7 +28,11 @@ async function buffer2File(buffer: Buffer, fname: string) {
   }
 }
 
-async function strengthenSpawn(folder: string, job: Job<unknown>) {
+async function strengthenSpawn(
+  folder: string,
+  job: Job<unknown>,
+  service: OptimizeService
+) {
   const mcode =
     "addpath('/usr/local/lib/imsafer'); optimeccentricity('Data'); exit;";
 
@@ -48,6 +56,11 @@ async function strengthenSpawn(folder: string, job: Job<unknown>) {
       const percomplete = 2.5 * (40 - parseInt(match[2]));
       job.progress(percomplete);
       console.log(`Completed: ${percomplete}%`);
+      const jobInfo = {
+        progress: percomplete.toString(),
+        processedOn: new Date(job.processedOn),
+      };
+      service.updateStrengthenJob(job.id.toString(), jobInfo);
     }
   }
   for await (const data of strengthenSpawn.stderr) {
@@ -56,12 +69,15 @@ async function strengthenSpawn(folder: string, job: Job<unknown>) {
     // console.error(`stderr: ${data.toString()}`);
   }
   strengthenSpawn.on('exit', (code) => {
+    const jobInfo = { finishedOn: new Date(job.finishedOn) };
+    service.updateStrengthenJob(job.id.toString(), jobInfo);
     console.log(`Child process exited with code: ${code.toString()}`);
   });
 }
 
 @Processor('imsafer-strengthen')
 export class StrengthenConsumer {
+  constructor(private service: OptimizeService) {}
   @Process('imsafer-strengthen-job')
   async strengthenDo(job: Job<unknown>) {
     const randstr = nanoid();
@@ -71,7 +87,7 @@ export class StrengthenConsumer {
     const buffer = Buffer.from(job.data['scase'][0]['buffer']['data']);
     await mkDir(folder);
     await buffer2File(buffer, fname);
-    await strengthenSpawn(folder, job);
+    await strengthenSpawn(folder, job, this.service);
     const zip = new AdmZip();
     zip.addLocalFolder(folder);
     return zip.toBuffer();

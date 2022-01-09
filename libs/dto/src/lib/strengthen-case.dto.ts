@@ -5,6 +5,10 @@ export class StrengthenCaseDto {
   @IsString()
   readonly name!: string;
   @IsNotEmpty()
-  @IsNumber()
+  @IsString()
   readonly jobID!: number;
+  timestamp!: Date;
+  finishedOn!: Date;
+  processedOn!: Date;
+  progress!: string;
 }
