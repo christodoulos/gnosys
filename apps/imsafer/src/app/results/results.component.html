@@ -1,1 +1,47 @@
-<p>results works!</p>
+<div class="text-lg p-2">Strengthen Jobs</div>
+<table class="table-fixed">
+  <thead class="p-2 bg-gray-100 text-xs">
+    <tr>
+      <th>Job name</th>
+      <th>Job id</th>
+      <th>Submited On</th>
+      <th>Completed</th>
+      <th>Finished On</th>
+      <th>Results</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let case of results" class="bg-white">
+      <td class="truncate px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {{ case.name }}
+      </td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {{ case.jobID }}
+      </td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {{ case.timestamp | date: 'short' }}
+      </td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {{ case.progress }}%
+      </td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {{ case.finishedOn | date: 'short' }}
+      </td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        <button
+          class="bg-indigo-500 p-2 cursor-pointer text-white font-semibold flex space-x-2 items-center"
+          *ngIf="case.finishedOn"
+          (click)="downloadFile(case.jobID, case.name)"
+        >
+          <svg-icon [key]="'download'"></svg-icon> Download
+        </button>
+        <div
+          *ngIf="!case.finishedOn"
+          class="bg-indigo-500 p-2 cursor-pointer text-white font-semibold flex space-x-2 items-center"
+        >
+          <svg-icon (click)="refresh()" [key]="'refresh'"></svg-icon>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

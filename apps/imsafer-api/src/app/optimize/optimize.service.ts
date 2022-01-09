@@ -43,4 +43,9 @@ export class OptimizeService {
       await foundJob.save();
     }
   }
+
+  async findNameByJobID(jobID: string) {
+    const foundJob = await this.model.findOne({ jobID });
+    return foundJob.name;
+  }
 }
