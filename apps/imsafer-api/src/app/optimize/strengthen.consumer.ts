@@ -37,7 +37,7 @@ async function strengthenSpawn(
     "addpath('/usr/local/lib/imsafer'); optimeccentricity('Data'); exit;";
 
   const strengthenSpawn = spawn(
-    '/usr/local/bin/matlab',
+    process.env.MATLAB,
     [
       '-nodesktop',
       '-nosplash',
