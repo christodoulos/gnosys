@@ -37,7 +37,6 @@ export class FileUploadService {
         responseType: 'json',
       }
     );
-
     return this.http.request(req);
   }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './results.component.html',
@@ -8,10 +8,16 @@ import { Observable } from 'rxjs';
 })
 export class ResultsComponent implements OnInit {
   results!: Array<any>;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
-    this.refresh();
+    this.http
+      .get<Array<{ _id: string; jobID: string; name: string }>>(
+        '/api/optimize/strengthen'
+      )
+      .subscribe((data) => {
+        this.results = data;
+      });
   }
 
   refresh() {
@@ -23,25 +29,6 @@ export class ResultsComponent implements OnInit {
         this.results = data;
       });
   }
-
-  // downLoadFile(data: any, type: string) {
-  //   let blob = new Blob([data], { type: type });
-  //   let url = window.URL.createObjectURL(blob);
-  //   let pwa = window.open(url);
-  //   if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
-  //     alert('Please disable your Pop-up blocker and try again.');
-  //   }
-  // }
-
-  // downloadFile(jobID: string) {
-  //   this.http
-  //     .get<Blob>(`/api/optimize/strengthen/${jobID}`, {
-  //       headers: new HttpHeaders().append('Content-Type', 'application/zip'),
-  //     })
-  //     .subscribe((data) => {
-  //       console.log(data);
-  //     });
-  // }
 
   downloadFile(jobID: string, filename: string): void {
     const baseUrl = `/api/optimize/strengthen/${jobID}`;

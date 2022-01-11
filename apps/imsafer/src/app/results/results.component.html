@@ -1,47 +1,41 @@
-<div class="text-lg p-2">Strengthen Jobs</div>
-<table class="table-fixed">
-  <thead class="p-2 bg-gray-100 text-xs">
-    <tr>
-      <th>Job name</th>
-      <th>Job id</th>
-      <th>Submited On</th>
-      <th>Completed</th>
-      <th>Finished On</th>
-      <th>Results</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let case of results" class="bg-white">
-      <td class="truncate px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+<div class="flex items-center text-lg p-2 mb-2">
+  <span class="mr-2">Strengthen Jobs</span>
+  <svg-icon
+    (click)="refresh()"
+    class="cursor-pointer"
+    [key]="'refresh'"
+  ></svg-icon>
+</div>
+
+<ul class="p-2 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  <li *ngFor="let case of results" class="col-span-1 flex flex-col bg-white">
+    <div class="p-2 flex flex-col text-sm">
+      <h3 class="text-gray-900 font-medium text-lg truncate">
         {{ case.name }}
-      </td>
-      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {{ case.jobID }}
-      </td>
-      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {{ case.timestamp | date: 'short' }}
-      </td>
-      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {{ case.progress }}%
-      </td>
-      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {{ case.finishedOn | date: 'short' }}
-      </td>
-      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+      </h3>
+      <p>
+        Job ID: <span class="font-semibold">{{ case.jobID }}</span>
+      </p>
+      <p>
+        Submited On:
+        <span class="font-semibold">{{ case.timestamp | date: 'short' }}</span>
+      </p>
+      <p>
+        Progress:
+        <span *ngIf="case.progress" class="font-semibold"
+          >{{ case.progress }}%</span
+        ><span *ngIf="!case.progress" class="font-semibold">Pending ...</span>
+      </p>
+      <p *ngIf="case.finishedOn">
+        Finished On:
+        <span class="font-semibold">{{ case.finishedOn | date: 'short' }}</span>
         <button
-          class="bg-indigo-500 p-2 cursor-pointer text-white font-semibold flex space-x-2 items-center"
-          *ngIf="case.finishedOn"
+          class="bg-indigo-500 p-1 mt-1 cursor-pointer text-white font-semibold flex space-x-2 items-center"
           (click)="downloadFile(case.jobID, case.name)"
         >
-          <svg-icon [key]="'download'"></svg-icon> Download
+          <svg-icon [key]="'download'"></svg-icon> <span>Results</span>
         </button>
-        <div
-          *ngIf="!case.finishedOn"
-          class="bg-indigo-500 p-2 cursor-pointer text-white font-semibold flex space-x-2 items-center"
-        >
-          <svg-icon (click)="refresh()" [key]="'refresh'"></svg-icon>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
+      </p>
+    </div>
+  </li>
+</ul>

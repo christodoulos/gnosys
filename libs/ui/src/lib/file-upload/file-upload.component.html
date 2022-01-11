@@ -14,7 +14,7 @@
 </div>
 
 <input
-  class="file-input"
+  class="hidden"
   type="file"
   multiple
   (change)="onFileSelection($event)"
@@ -22,13 +22,25 @@
 />
 <div class="p-2 flex flex-row items-center space-x-2">
   <span *ngIf="!filenames.length">No files selected yet.</span>
-  <table class="divide-y divide-gray-200">
-    <tr *ngFor="let file of filenames">
-      <td>{{ file.name }}</td>
-      <td>{{ file.size / 1024 | number: '1.2-2' }} K</td>
-      <td>{{ file.type }}</td>
+  <div class="block">
+    <div
+      class="grid gap-1 grid-cols-3 text-sm mb-2"
+      *ngFor="let file of filenames"
+    >
+      <div class="bg-white truncate">{{ file.name }}</div>
+      <div class="bg-white justify-items-end">
+        {{ file.size / 1024 | number: '1.2-2' }} K
+      </div>
+      <div class="bg-white">{{ file.type }}</div>
+    </div>
+  </div>
+  <!-- <table class="table border-red-400 border-2">
+    <tr class="table-row" *ngFor="let file of filenames">
+      <td class="table-cell">{{ file.name }}</td>
+      <td class="table-cell">{{ file.size / 1024 | number: '1.2-2' }} K</td>
+      <td class="table-cell">{{ file.type }}</td>
     </tr>
-  </table>
+  </table> -->
   <button
     type="button"
     (click)="fileUpload.click()"
