@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ListItem } from '@gnosys/interfaces';
-import * as UI from './ui.repository';
+import { ImsaferUIRepository } from '@gnosys/state';
 
 @Component({
   selector: 'gnosys-root',
@@ -10,14 +10,14 @@ import * as UI from './ui.repository';
 })
 export class AppComponent {
   title = 'imsafer';
-  sidebar$ = UI.sidebar$;
-  topbar$ = UI.topbar$;
-  topbarActive$ = UI.topbarActive$;
-  sidebarActive$ = UI.sidebarActive$;
-  updateSidebar = UI.updateSidebar;
-  updateTopbar = UI.updateTopbar;
+  sidebar$ = this.ui.sidebar$;
+  topbar$ = this.ui.topbar$;
+  topbarActive$ = this.ui.topbarActive$;
+  sidebarActive$ = this.ui.sidebarActive$;
+  updateSidebar = this.ui.updateSidebar;
+  updateTopbar = this.ui.updateTopbar;
 
-  constructor(private router: Router) {
+  constructor(private ui: ImsaferUIRepository, private router: Router) {
     this.topbarActive$.subscribe((value) => {
       if (value) {
         this.router.navigate([value?.text]);

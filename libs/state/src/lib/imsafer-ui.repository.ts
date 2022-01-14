@@ -2,6 +2,7 @@ import { Store, createState, withProps, select } from '@ngneat/elf';
 import { NavList } from '@gnosys/interfaces';
 import { map } from 'rxjs';
 import { Router } from '@angular/router';
+import { Injectable } from '@angular/core';
 
 export interface ImsaferUI {
   sidebar: NavList;
@@ -54,32 +55,35 @@ const { state, config } = createState(
 
 const store = new Store({ state, name: 'imsaferUI', config });
 
-export const sidebar$ = store.pipe(select((state) => state.sidebar));
-export const sidebarActive$ = store.pipe(
-  select((state) => state.sidebar.find((element) => element.active))
-);
-export const sidebarActiveText$ = sidebarActive$.pipe(
-  map((item) => (item ? item.text : ''))
-);
+@Injectable({ providedIn: 'root' })
+export class ImsaferUIRepository {
+  sidebar$ = store.pipe(select((state) => state.sidebar));
+  sidebarActive$ = store.pipe(
+    select((state) => state.sidebar.find((element) => element.active))
+  );
+  sidebarActiveText$ = this.sidebarActive$.pipe(
+    map((item) => (item ? item.text : ''))
+  );
 
-export const topbar$ = store.pipe(select((state) => state.topbar));
-export const topbarActive$ = store.pipe(
-  select((state) => state.topbar.find((element) => element.active))
-);
-export const topbarActiveText$ = topbarActive$.pipe(
-  map((item) => (item ? item.text : ''))
-);
+  topbar$ = store.pipe(select((state) => state.topbar));
+  topbarActive$ = store.pipe(
+    select((state) => state.topbar.find((element) => element.active))
+  );
+  topbarActiveText$ = this.topbarActive$.pipe(
+    map((item) => (item ? item.text : ''))
+  );
 
-export function updateSidebar(sidebar: NavList) {
-  const sidebarActive = sidebar.find((element) => element.active)?.text || '';
-  const topbar = topbarOBJ[sidebarActive];
-  store.update((state) => ({
-    ...state,
-    sidebar,
-    topbar,
-  }));
-}
+  updateSidebar(sidebar: NavList) {
+    const sidebarActive = sidebar.find((element) => element.active)?.text || '';
+    const topbar = topbarOBJ[sidebarActive];
+    store.update((state) => ({
+      ...state,
+      sidebar,
+      topbar,
+    }));
+  }
 
-export function updateTopbar(topbar: NavList) {
-  store.update((state) => ({ ...state, topbar }));
+  updateTopbar(topbar: NavList) {
+    store.update((state) => ({ ...state, topbar }));
+  }
 }
