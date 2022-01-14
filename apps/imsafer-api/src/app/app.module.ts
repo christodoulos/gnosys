@@ -8,6 +8,7 @@ import { UserModule } from '@gnosys/user';
 import { MailModule } from '@gnosys/mail';
 import { UploadModule } from '@gnosys/upload';
 import { OptimizeModule } from './optimize/optimize.module';
+import { EventsModule } from './events/events.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -35,6 +36,7 @@ import { join } from 'path';
     // MailModule,
     UploadModule,
     OptimizeModule,
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
