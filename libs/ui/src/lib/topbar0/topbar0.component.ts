@@ -12,7 +12,7 @@ import { ListItem, NavList } from '@gnosys/interfaces';
   selector: 'topbar0',
   templateUrl: './topbar0.component.html',
   styleUrls: ['./topbar0.component.css'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Topbar0Component {
   @Input() items: NavList = [];

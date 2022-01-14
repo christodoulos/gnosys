@@ -13,7 +13,7 @@
     <div class="w-full mb-2 md:mb-0 md:w-1/4 mr-2">
       <sidebar0
         [items]="(sidebar$ | async) || []"
-        (selection)="_updateSidebar($event)"
+        (selection)="dispatch(sidebarNavigationAction({ navlist: $event }))"
       ></sidebar0>
     </div>
     <div class="w-full md:w-3/4 space-y-4">
@@ -23,7 +23,7 @@
         </div>
         <topbar0
           [items]="(topbar$ | async) || []"
-          (selection)="_updateTopbar($event)"
+          (selection)="dispatch(topbarNavigationAction({ navlist: $event }))"
         ></topbar0>
       </div>
 

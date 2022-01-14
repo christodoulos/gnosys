@@ -1,6 +1,14 @@
 import { Store, createState, withProps, select } from '@ngneat/elf';
+import {
+  actionsFactory,
+  createAction,
+  createEffect,
+  ofType,
+  props,
+} from '@ngneat/effects';
+
 import { NavList } from '@gnosys/interfaces';
-import { map } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 
@@ -73,6 +81,8 @@ export class ImsaferUIRepository {
     map((item) => (item ? item.text : ''))
   );
 
+  constructor(private router: Router) {}
+
   updateSidebar(sidebar: NavList) {
     const sidebarActive = sidebar.find((element) => element.active)?.text || '';
     const topbar = topbarOBJ[sidebarActive];
@@ -81,9 +91,48 @@ export class ImsaferUIRepository {
       sidebar,
       topbar,
     }));
+    this.router.navigate([sidebarActive]);
   }
 
   updateTopbar(topbar: NavList) {
+    const topbarActive = topbar.find((element) => element.active)?.text || '';
     store.update((state) => ({ ...state, topbar }));
+    this.router.navigate([topbarActive]);
   }
+}
+
+@Injectable({ providedIn: 'root' })
+export class ImsaferUIEffects {
+  constructor(private ui: ImsaferUIRepository) {}
+
+  sidebarNavigation = createAction(
+    '[Imsafer] Sidebar Navigation',
+    props<{ navlist: NavList }>()
+  );
+
+  topbarNavigation = createAction(
+    'Topbar Navigation',
+    props<{ navlist: NavList }>()
+  );
+
+  navigationActions = actionsFactory('IMSAFER');
+
+  sidebarNavigationEffect$ = createEffect((actions$) =>
+    actions$.pipe(
+      ofType(this.sidebarNavigation),
+      tap((payload) => this.ui.updateSidebar(payload.navlist))
+    )
+  );
+
+  topbarNavigationEffect$ = createEffect((actions$) =>
+    actions$.pipe(
+      ofType(this.topbarNavigation),
+      tap((payload) => this.ui.updateTopbar(payload.navlist))
+    )
+  );
+
+  navigationEffects = [
+    this.sidebarNavigationEffect$,
+    this.topbarNavigationEffect$,
+  ];
 }
