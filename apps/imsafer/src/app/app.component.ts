@@ -12,7 +12,6 @@ export class AppComponent {
   topbar$ = this.ui.topbar$;
   topbarActive$ = this.ui.topbarActive$;
   sidebarActive$ = this.ui.sidebarActive$;
-  actions$ = this.effects.navigationActions;
   sidebarNavigationAction = this.effects.sidebarNavigation;
   topbarNavigationAction = this.effects.topbarNavigation;
   dispatch = dispatch;
