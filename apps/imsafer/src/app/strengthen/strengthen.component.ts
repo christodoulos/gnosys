@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { StrengthenJob } from '@gnosys/interfaces';
+import { Observable } from 'rxjs';
+import { UploadService } from '../upload.service';
 
 @Component({
   templateUrl: './strengthen.component.html',
-  styleUrls: ['./strengthen.component.css']
+  styleUrls: ['./strengthen.component.css'],
 })
-export class StrengthenComponent implements OnInit {
+export class StrengthenComponent {
+  strengthenJob: Observable<StrengthenJob> | undefined;
+  constructor(private uploadService: UploadService) {}
 
-  constructor() { }
-
-  ngOnInit(): void {
+  submitCase(data: FormData) {
+    this.strengthenJob = this.uploadService.uploadStrengthen(data);
   }
-
 }
