@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { StrengthenJob } from '@gnosys/interfaces';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { UploadService } from '../upload.service';
 
 @Component({
@@ -8,10 +7,12 @@ import { UploadService } from '../upload.service';
   styleUrls: ['./strengthen.component.css'],
 })
 export class StrengthenComponent {
-  strengthenJob: Observable<StrengthenJob> | undefined;
-  constructor(private uploadService: UploadService) {}
+  constructor(private uploadService: UploadService, private router: Router) {}
 
   submitCase(data: FormData) {
-    this.strengthenJob = this.uploadService.uploadStrengthen(data);
+    this.uploadService.uploadStrengthen(data).subscribe((data) => {
+      console.log(data);
+      this.router.navigate(['Results']);
+    });
   }
 }
