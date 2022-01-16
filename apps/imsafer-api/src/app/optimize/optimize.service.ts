@@ -1,13 +1,6 @@
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { Request } from 'express';
+import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { Strengthen, StrengthenDocument } from '@gnosys/schemas';
-import { StrengthenCaseDto } from '@gnosys/dto';
 import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
@@ -20,8 +13,13 @@ export class OptimizeService {
     return this.model.find().exec();
   }
 
-  async saveStrengthenJob(name: string, jobID: string, timestamp: Date) {
-    const createdJob = new this.model({ name, jobID, timestamp });
+  async saveStrengthenJob(
+    name: string,
+    jobID: string,
+    timestamp: Date,
+    jobUUID: string
+  ) {
+    const createdJob = new this.model({ name, jobID, timestamp, jobUUID });
     return await createdJob.save();
   }
 

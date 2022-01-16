@@ -5,6 +5,7 @@ import {
   ElementRef,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { withLatestFrom } from 'rxjs';
 import { FileUploadService } from './file-upload.service';
 
 export interface FileInfo {
@@ -45,6 +46,7 @@ export class FileUploadComponent {
         );
       }
       this.service.uploadFiles(formData).subscribe((data) => {
+        console.log('UPLOAD');
         console.log(data);
         this.selectedFiles = undefined;
         this.filenames = [];
@@ -57,6 +59,7 @@ export class FileUploadComponent {
       const file: File | null = this.selectedFiles.item(0);
       if (file)
         this.service.upload(file, caseName).subscribe((data) => {
+          console.log('STRENGTHEN');
           console.log(data);
           this.selectedFiles = undefined;
           this.filenames = [];

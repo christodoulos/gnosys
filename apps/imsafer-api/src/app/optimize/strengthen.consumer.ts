@@ -1,12 +1,9 @@
 import { Process, Processor } from '@nestjs/bull';
 import { Job } from 'bull';
-import { nanoid } from 'nanoid';
 import { spawn } from 'child_process';
 import fs = require('fs');
 import AdmZip = require('adm-zip');
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Strengthen, StrengthenDocument } from '@gnosys/schemas';
+
 import { OptimizeService } from './optimize.service';
 
 const fsPromises = fs.promises;
@@ -28,13 +25,24 @@ async function buffer2File(buffer: Buffer, fname: string) {
   }
 }
 
+async function prepareStrengthenCase(job: Job<unknown>): Promise<string> {
+  const jobName = job.data['name'];
+  const jobUUID = job.data['uuid'];
+  const folder = `/tmp/imsafer/${jobName}-${jobUUID}/`;
+  const fname = `${folder}/Data.csv`;
+  const buffer = Buffer.from(job.data['scase'][0]['buffer']['data']);
+  await mkDir(folder);
+  await buffer2File(buffer, fname);
+  return folder;
+}
+
 async function strengthenSpawn(
   folder: string,
   job: Job<unknown>,
   service: OptimizeService
 ) {
-  const mcode =
-    "addpath('/usr/local/lib/imsafer'); optimeccentricity('Data'); exit;";
+  const mcode = `addpath('${process.env.STRENGTHEN}'); optimeccentricity('Data'); exit;`;
+  console.log(mcode);
 
   const strengthenSpawn = spawn(
     process.env.MATLAB,
@@ -80,13 +88,14 @@ export class StrengthenConsumer {
   constructor(private service: OptimizeService) {}
   @Process('imsafer-strengthen-job')
   async strengthenDo(job: Job<unknown>) {
-    const randstr = nanoid();
-    job.log(randstr);
-    const folder = `/tmp/imsafer/${randstr}/`;
-    const fname = `${folder}/Data.csv`;
-    const buffer = Buffer.from(job.data['scase'][0]['buffer']['data']);
-    await mkDir(folder);
-    await buffer2File(buffer, fname);
+    // const jobName = job.data['name'];
+    // const jobUUID = job.data['uuid'];
+    // const folder = `/tmp/imsafer/${jobName}-${jobUUID}/`;
+    // const fname = `${folder}/Data.csv`;
+    // const buffer = Buffer.from(job.data['scase'][0]['buffer']['data']);
+    // await mkDir(folder);
+    // await buffer2File(buffer, fname);
+    const folder = await prepareStrengthenCase(job);
     await strengthenSpawn(folder, job, this.service);
     const zip = new AdmZip();
     zip.addLocalFolder(folder);

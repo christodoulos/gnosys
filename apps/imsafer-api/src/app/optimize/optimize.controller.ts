@@ -6,19 +6,18 @@ import {
   Param,
   Post,
   Res,
-  Response,
   StreamableFile,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
-// import { Response } from 'express';
+import { Response } from 'express';
 import { Queue } from 'bull';
-// import { Readable } from 'stream';
 
 import { OptimizeProducer } from './optimize.producer';
 import { StrengthenProducer } from './strengthen.producer';
 import { OptimizeService } from './optimize.service';
+import { nanoid } from 'nanoid';
 
 @Controller('optimize')
 export class OptimizeController {
@@ -29,17 +28,6 @@ export class OptimizeController {
     private readonly optimizeService: OptimizeService
   ) {}
 
-  // @Post('strengthen')
-  // @UseInterceptors(AnyFilesInterceptor())
-  // async processImage(@UploadedFiles() files: Express.Multer.File[]) {
-  //   const job = await this.optimizeQueue.add('optimize', {
-  //     files,
-  //   });
-
-  //   return {
-  //     jobId: job.id,
-  //   };
-  // }
   @Post('strengthen0')
   @UseInterceptors(AnyFilesInterceptor())
   async processStrengthen0Case(@UploadedFiles() files: Express.Multer.File[]) {
@@ -53,7 +41,8 @@ export class OptimizeController {
     @Body() body: { name: string }
   ) {
     console.log(body);
-    return this.strengthenProducer.strengthenNew(file, body.name);
+    const uuid = nanoid();
+    return this.strengthenProducer.strengthenNew(file, body.name, uuid);
   }
 
   @Get('strengthen')
@@ -61,33 +50,9 @@ export class OptimizeController {
     return this.optimizeService.findAllStrengthen();
   }
 
-  // @Get('strengthen0/:id')
-  // async getStrengthenResults0(
-  //   @Res() response: Response,
-  //   @Param('id') id: string
-  // ) {
-  //   const job = await this.queue.getJob(id);
-
-  //   if (!job) {
-  //     return response.sendStatus(404);
-  //   }
-
-  //   const isCompleted = await job.isCompleted();
-
-  //   if (!isCompleted) {
-  //     return response.sendStatus(202);
-  //   }
-
-  //   const result = Buffer.from(job.returnvalue);
-
-  //   const stream = Readable.from(result);
-
-  //   stream.pipe(response);
-  // }
-
   @Get('strengthen/:id')
   async getFile(
-    @Response({ passthrough: true }) res,
+    @Res({ passthrough: true }) res: Response,
     @Param('id') id: string
   ): Promise<StreamableFile> {
     const job = await this.queue.getJob(id);

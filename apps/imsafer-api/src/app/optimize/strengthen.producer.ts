@@ -11,10 +11,19 @@ export class StrengthenProducer {
     private service: OptimizeService
   ) {}
 
-  async strengthenNew(scase: Express.Multer.File, name: string) {
-    const job = await this.queue.add('imsafer-strengthen-job', { scase });
+  async strengthenNew(scase: Express.Multer.File, name: string, uuid: string) {
+    const job = await this.queue.add('imsafer-strengthen-job', {
+      scase,
+      name,
+      uuid,
+    });
     const timestamp = new Date(job.timestamp);
-    await this.service.saveStrengthenJob(name, job.id.toString(), timestamp);
-    return { jobID: job.id };
+    await this.service.saveStrengthenJob(
+      name,
+      job.id.toString(),
+      timestamp,
+      uuid
+    );
+    return { jobID: job.id, name, uuid };
   }
 }

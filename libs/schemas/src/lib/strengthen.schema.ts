@@ -12,6 +12,9 @@ export class Strengthen {
   @Prop({ default: 0 })
   jobID!: string;
 
+  @Prop({ default: '' })
+  jobUUID!: string;
+
   @Prop()
   timestamp!: Date;
 
