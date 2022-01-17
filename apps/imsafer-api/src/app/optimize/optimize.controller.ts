@@ -22,7 +22,7 @@ import { nanoid } from 'nanoid';
 @Controller('optimize')
 export class OptimizeController {
   constructor(
-    @InjectQueue('imsafer-strengthen') private readonly queue: Queue,
+    @InjectQueue('strengthen') private readonly queue: Queue,
     private readonly optimizeProducer: OptimizeProducer,
     private readonly strengthenProducer: StrengthenProducer,
     private readonly optimizeService: OptimizeService

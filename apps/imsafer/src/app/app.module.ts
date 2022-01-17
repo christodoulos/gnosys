@@ -13,6 +13,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { StrengthenComponent } from './strengthen/strengthen.component';
 import { StrengthenUploadComponent } from './strengthen/strengthen-upload/strengthen-upload.component';
 import { ResultsComponent } from './results/results.component';
+import { BlastComponent } from './blast/blast.component';
 
 @NgModule({
   declarations: [
@@ -21,12 +22,14 @@ import { ResultsComponent } from './results/results.component';
     StrengthenComponent,
     ResultsComponent,
     StrengthenUploadComponent,
+    BlastComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     RouterModule.forRoot([
       { path: 'Strengthen', component: StrengthenComponent },
+      { path: 'Blast', component: BlastComponent },
       { path: 'Results', component: ResultsComponent },
       { path: '**', component: WelcomeComponent },
     ]),

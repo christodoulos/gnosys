@@ -83,10 +83,10 @@ async function strengthenSpawn(
   });
 }
 
-@Processor('imsafer-strengthen')
+@Processor('strengthen')
 export class StrengthenConsumer {
   constructor(private service: OptimizeService) {}
-  @Process('imsafer-strengthen-job')
+  @Process('strengthen-job')
   async strengthenDo(job: Job<unknown>) {
     // const jobName = job.data['name'];
     // const jobUUID = job.data['uuid'];

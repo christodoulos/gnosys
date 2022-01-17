@@ -6,7 +6,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { StrengthenJob } from '@gnosys/interfaces';
+import { BlastJob, StrengthenJob } from '@gnosys/interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -39,5 +39,9 @@ export class UploadService {
 
   uploadStrengthen(data: FormData): Observable<StrengthenJob> {
     return this.http.post<StrengthenJob>('/api/optimize/strengthen', data);
+  }
+
+  blastJob(data: BlastJob) {
+    return this.http.post('/api/optimize/blast', data);
   }
 }

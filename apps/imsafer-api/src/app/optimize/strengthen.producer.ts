@@ -7,12 +7,12 @@ import { OptimizeService } from './optimize.service';
 @Injectable()
 export class StrengthenProducer {
   constructor(
-    @InjectQueue('imsafer-strengthen') private readonly queue: Queue,
+    @InjectQueue('strengthen') private readonly queue: Queue,
     private service: OptimizeService
   ) {}
 
   async strengthenNew(scase: Express.Multer.File, name: string, uuid: string) {
-    const job = await this.queue.add('imsafer-strengthen-job', {
+    const job = await this.queue.add('strengthen-job', {
       scase,
       name,
       uuid,

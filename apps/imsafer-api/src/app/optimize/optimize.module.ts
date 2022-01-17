@@ -15,10 +15,9 @@ import { StrengthenConsumer } from './strengthen.consumer';
       { name: Strengthen.name, schema: StrengthenSchema },
     ]),
     BullModule.registerQueue(
-      {
-        name: 'optimize',
-      },
-      { name: 'imsafer-strengthen' }
+      { name: 'optimize' },
+      { name: 'strengthen' },
+      { name: 'blast' }
     ),
   ],
   controllers: [OptimizeController],
