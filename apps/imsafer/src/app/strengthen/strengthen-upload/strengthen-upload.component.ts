@@ -32,6 +32,7 @@ export class StrengthenUploadComponent implements AfterViewInit {
       this.file = this.fileInput.files[0];
       this.formData = new FormData();
       this.formData.append('file', this.file);
+      console.log(this.formData);
     } else {
       this.formData = undefined;
       this.file = undefined;

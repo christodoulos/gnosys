@@ -8,6 +8,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Strengthen, StrengthenSchema } from '@gnosys/schemas';
 import { OptimizeService } from './optimize.service';
 import { StrengthenConsumer } from './strengthen.consumer';
+import { BlastProducer } from './blast.producer';
+import { BlastConsumer } from './blast.consumer';
 
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import { StrengthenConsumer } from './strengthen.consumer';
     OptimizeProducer,
     StrengthenProducer,
     StrengthenConsumer,
+    BlastProducer,
+    BlastConsumer,
     OptimizeService,
   ],
 })

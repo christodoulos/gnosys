@@ -28,7 +28,7 @@ async function buffer2File(buffer: Buffer, fname: string) {
 async function prepareStrengthenCase(job: Job<unknown>): Promise<string> {
   const jobName = job.data['name'];
   const jobUUID = job.data['uuid'];
-  const folder = `/tmp/imsafer/${jobName}-${jobUUID}/`;
+  const folder = `/tmp/imsafer/strengthen/${jobName}-${jobUUID}/`;
   const fname = `${folder}/Data.csv`;
   const buffer = Buffer.from(job.data['scase'][0]['buffer']['data']);
   await mkDir(folder);

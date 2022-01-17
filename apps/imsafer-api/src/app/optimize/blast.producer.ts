@@ -5,14 +5,19 @@ import { Queue } from 'bull';
 
 import { OptimizeService } from './optimize.service';
 @Injectable()
-export class StrengthenProducer {
+export class BlastProducer {
   constructor(
     @InjectQueue('blast') private readonly queue: Queue,
     private service: OptimizeService
   ) {}
 
-  async blastNew(bcase: BlastJob, name: string, uuid: string) {
-    const job = await this.queue.add('blast-job', { bcase, name, uuid });
-    return { jobID: job.id };
+  async blastNew(name: string, data: BlastJob, uuid: string) {
+    console.log(data);
+    const job = await this.queue.add('blast-job', {
+      name,
+      blastData: data,
+      uuid,
+    });
+    return { jobID: job.id, name, uuid };
   }
 }

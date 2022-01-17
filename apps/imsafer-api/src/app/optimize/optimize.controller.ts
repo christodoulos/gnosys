@@ -16,8 +16,10 @@ import { Queue } from 'bull';
 
 import { OptimizeProducer } from './optimize.producer';
 import { StrengthenProducer } from './strengthen.producer';
+import { BlastProducer } from './blast.producer';
 import { OptimizeService } from './optimize.service';
 import { nanoid } from 'nanoid';
+import { BlastJob } from '@gnosys/interfaces';
 
 @Controller('optimize')
 export class OptimizeController {
@@ -25,6 +27,7 @@ export class OptimizeController {
     @InjectQueue('strengthen') private readonly queue: Queue,
     private readonly optimizeProducer: OptimizeProducer,
     private readonly strengthenProducer: StrengthenProducer,
+    private readonly blastProducer: BlastProducer,
     private readonly optimizeService: OptimizeService
   ) {}
 
@@ -40,7 +43,7 @@ export class OptimizeController {
     @UploadedFiles() file: Express.Multer.File,
     @Body() body: { name: string }
   ) {
-    console.log(body);
+    console.log('STRENGTHEN CONTROLLER', body);
     const uuid = nanoid();
     return this.strengthenProducer.strengthenNew(file, body.name, uuid);
   }
@@ -63,5 +66,13 @@ export class OptimizeController {
     });
     const result = Buffer.from(job.returnvalue);
     return new StreamableFile(result);
+  }
+
+  @Post('blast')
+  @UseInterceptors(AnyFilesInterceptor())
+  async processBlastCase(@Body() body) {
+    console.log('SKATA', body);
+    const uuid = nanoid();
+    return this.blastProducer.blastNew(body.name, JSON.parse(body.data), uuid);
   }
 }

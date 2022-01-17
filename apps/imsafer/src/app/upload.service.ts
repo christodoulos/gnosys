@@ -41,7 +41,8 @@ export class UploadService {
     return this.http.post<StrengthenJob>('/api/optimize/strengthen', data);
   }
 
-  blastJob(data: BlastJob) {
-    return this.http.post('/api/optimize/blast', data);
+  blastJob(data: FormData): Observable<any> {
+    console.log('SERVICE', data.get('name'), data.get('data'));
+    return this.http.post<StrengthenJob>('/api/optimize/blast', data);
   }
 }
