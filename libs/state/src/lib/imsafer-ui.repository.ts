@@ -15,6 +15,7 @@ import { Injectable } from '@angular/core';
 export interface ImsaferUI {
   sidebar: NavList;
   topbar: NavList;
+  loading: boolean;
 }
 
 export const SidebarOBJ: NavList = [
@@ -58,6 +59,7 @@ const { state, config } = createState(
   withProps<ImsaferUI>({
     sidebar: SidebarOBJ,
     topbar: topbarOBJ['Robust'],
+    loading: false,
   })
 );
 
@@ -81,6 +83,8 @@ export class ImsaferUIRepository {
     map((item) => (item ? item.text : ''))
   );
 
+  isloading$ = store.pipe(select((state) => state.loading));
+
   constructor(private router: Router) {}
 
   updateSidebar(sidebar: NavList) {
@@ -98,6 +102,10 @@ export class ImsaferUIRepository {
     const topbarActive = topbar.find((element) => element.active)?.text || '';
     store.update((state) => ({ ...state, topbar }));
     this.router.navigate([topbarActive]);
+  }
+
+  setLoading(value: boolean) {
+    store.update((state) => ({ ...state, loading: value }));
   }
 }
 

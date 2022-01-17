@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ImsaferUIRepository } from '@gnosys/state';
 
 @Component({
   templateUrl: './results.component.html',
@@ -8,7 +9,12 @@ import { Router } from '@angular/router';
 })
 export class ResultsComponent implements OnInit {
   results!: Array<any>;
-  constructor(private http: HttpClient, private router: Router) {}
+  isloading$ = this.repo.isloading$;
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private repo: ImsaferUIRepository
+  ) {}
 
   ngOnInit(): void {
     this.http
@@ -21,12 +27,14 @@ export class ResultsComponent implements OnInit {
   }
 
   refresh() {
+    this.repo.setLoading(true);
     this.http
       .get<Array<{ _id: string; jobID: string; name: string }>>(
         '/api/optimize/strengthen'
       )
       .subscribe((data) => {
         this.results = data;
+        this.repo.setLoading(false);
       });
   }
 

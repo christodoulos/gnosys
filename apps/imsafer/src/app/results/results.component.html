@@ -2,7 +2,7 @@
   <span class="mr-2">Strengthen Jobs</span>
   <svg-icon
     (click)="refresh()"
-    class="cursor-pointer"
+    class="cursor-pointer {{ (isloading$ | async) ? 'animate-spin' : '' }}"
     [key]="'refresh'"
   ></svg-icon>
 </div>
