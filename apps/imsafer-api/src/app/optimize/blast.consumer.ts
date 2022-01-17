@@ -36,14 +36,7 @@ async function blastSpawn(
     structureLength,
     structureHeight,
   } = job.data['blastData'];
-  console.log(
-    'BLAST CONSUMER',
-    chargeWeight,
-    distance,
-    structureWidth,
-    structureLength,
-    structureHeight
-  );
+
   const blastSpawn = spawn(
     process.env.BLAST,
     [chargeWeight, distance, structureWidth, structureLength, structureHeight],
@@ -52,7 +45,6 @@ async function blastSpawn(
   for await (const data of blastSpawn.stderr) {
     job.failedReason = data.toString();
     job.moveToFailed({ message: job.failedReason }, true);
-    // console.error(`stderr: ${data.toString()}`);
   }
 }
 

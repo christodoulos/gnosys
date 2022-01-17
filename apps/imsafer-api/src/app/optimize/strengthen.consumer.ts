@@ -42,7 +42,6 @@ async function strengthenSpawn(
   service: OptimizeService
 ) {
   const mcode = `addpath('${process.env.STRENGTHEN}'); optimeccentricity('Data'); exit;`;
-  console.log(mcode);
 
   const strengthenSpawn = spawn(
     process.env.MATLAB,
@@ -74,7 +73,6 @@ async function strengthenSpawn(
   for await (const data of strengthenSpawn.stderr) {
     job.failedReason = data.toString();
     job.moveToFailed({ message: job.failedReason }, true);
-    // console.error(`stderr: ${data.toString()}`);
   }
   strengthenSpawn.on('exit', (code) => {
     const jobInfo = { finishedOn: new Date(job.finishedOn) };
@@ -88,13 +86,6 @@ export class StrengthenConsumer {
   constructor(private service: OptimizeService) {}
   @Process('strengthen-job')
   async strengthenDo(job: Job<unknown>) {
-    // const jobName = job.data['name'];
-    // const jobUUID = job.data['uuid'];
-    // const folder = `/tmp/imsafer/${jobName}-${jobUUID}/`;
-    // const fname = `${folder}/Data.csv`;
-    // const buffer = Buffer.from(job.data['scase'][0]['buffer']['data']);
-    // await mkDir(folder);
-    // await buffer2File(buffer, fname);
     const folder = await prepareStrengthenCase(job);
     await strengthenSpawn(folder, job, this.service);
     const zip = new AdmZip();

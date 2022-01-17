@@ -11,7 +11,6 @@ export class StrengthenComponent {
 
   submitCase(data: FormData) {
     this.uploadService.uploadStrengthen(data).subscribe((data) => {
-      console.log(data);
       this.router.navigate(['Results']);
     });
   }

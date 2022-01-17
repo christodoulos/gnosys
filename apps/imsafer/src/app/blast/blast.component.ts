@@ -44,14 +44,8 @@ export class BlastComponent implements OnInit {
       const formData = new FormData();
       formData.append('name', this.name);
       formData.append('data', JSON.stringify(this.form.value));
-      console.log(
-        'BLAST COMPONENT',
-        formData.get('name'),
-        formData.get('data')
-      );
 
       this.service.blastJob(formData).subscribe((data) => {
-        console.log(data);
         this.router.navigate(['Results']);
       });
     }
