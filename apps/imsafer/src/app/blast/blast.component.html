@@ -25,3 +25,12 @@
     <svg-icon [key]="'rss'" class="mr-2"></svg-icon> Blast
   </button>
 </div>
+
+<div *ngIf="jobID">
+  <p *ngIf="!completed">
+    Job is running <span (click)="refresh()">Refresh</span>
+  </p>
+  <p *ngIf="completed">
+    Job is finished<img [src]="thumbnail" />{{ failedReason }}
+  </p>
+</div>

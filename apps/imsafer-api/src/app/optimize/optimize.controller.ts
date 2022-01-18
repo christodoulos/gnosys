@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Get,
+  Header,
   Param,
   Post,
   Res,
@@ -20,11 +21,13 @@ import { BlastProducer } from './blast.producer';
 import { OptimizeService } from './optimize.service';
 import { nanoid } from 'nanoid';
 import { BlastJob } from '@gnosys/interfaces';
+import { createReadStream } from 'fs';
 
 @Controller('optimize')
 export class OptimizeController {
   constructor(
     @InjectQueue('strengthen') private readonly queue: Queue,
+    @InjectQueue('blast') private readonly blastQueue: Queue,
     private readonly optimizeProducer: OptimizeProducer,
     private readonly strengthenProducer: StrengthenProducer,
     private readonly blastProducer: BlastProducer,
@@ -71,8 +74,35 @@ export class OptimizeController {
   @Post('blast')
   @UseInterceptors(AnyFilesInterceptor())
   async processBlastCase(@Body() body) {
-    console.log('SKATA', body);
     const uuid = nanoid();
     return this.blastProducer.blastNew(body.name, JSON.parse(body.data), uuid);
+  }
+
+  @Get('blast/:id')
+  async getBlastResults(@Res() res: Response, @Param('id') id: string) {
+    const job = await this.blastQueue.getJob(id);
+    const jobIsCompleted = await job.isCompleted();
+    const jobHasFailed = await job.isFailed();
+    let failedReason = '';
+    if (jobHasFailed) failedReason = job.failedReason;
+    res.send({
+      completed: jobIsCompleted,
+      failed: jobHasFailed,
+      failedReason: failedReason,
+    });
+  }
+
+  @Get('blast/:id/picture')
+  @Header('Content-Type', 'image/png')
+  @Header('Content-Disposition', 'attachment; filename=plot.png')
+  async getBlastResultPicture(
+    @Res({ passthrough: true }) res: Response,
+    @Param('id') id: string
+  ): Promise<StreamableFile> {
+    const job = await this.blastQueue.getJob(id);
+    const { name, uuid } = job.data;
+    const plot = `/tmp/imsafer/blast/${name}-${uuid}/plot.png`;
+    const data = createReadStream(plot);
+    return new StreamableFile(data);
   }
 }

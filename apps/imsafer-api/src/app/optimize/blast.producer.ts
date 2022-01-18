@@ -12,7 +12,6 @@ export class BlastProducer {
   ) {}
 
   async blastNew(name: string, data: BlastJob, uuid: string) {
-    console.log(data);
     const job = await this.queue.add('blast-job', {
       name,
       blastData: data,

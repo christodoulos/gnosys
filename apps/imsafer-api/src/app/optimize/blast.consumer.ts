@@ -24,11 +24,7 @@ async function prepareBlastCase(job: Job<unknown>): Promise<string> {
   return folder;
 }
 
-async function blastSpawn(
-  folder: string,
-  job: Job<unknown>,
-  service: OptimizeService
-) {
+async function blastSpawn(folder: string, job: Job<unknown>) {
   const {
     chargeWeight,
     distance,
@@ -50,11 +46,10 @@ async function blastSpawn(
 
 @Processor('blast')
 export class BlastConsumer {
-  constructor(private service: OptimizeService) {}
   @Process('blast-job')
   async blastDo(job: Job<unknown>) {
     const folder = await prepareBlastCase(job);
-    await blastSpawn(folder, job, this.service);
+    await blastSpawn(folder, job);
     const zip = new AdmZip();
     zip.addLocalFolder(folder);
     return zip.toBuffer();

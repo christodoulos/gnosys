@@ -44,4 +44,18 @@ export class UploadService {
   blastJob(data: FormData): Observable<any> {
     return this.http.post<StrengthenJob>('/api/optimize/blast', data);
   }
+
+  getBlastJob(jobID: string) {
+    return this.http.get<{
+      completed?: boolean;
+      failed?: boolean;
+      failedReason?: string;
+    }>(`/api/optimize/blast/${jobID}`);
+  }
+
+  getBlastJobImage(jobID: string) {
+    return this.http.get(`/api/optimize/blast/${jobID}/picture`, {
+      responseType: 'blob',
+    });
+  }
 }
