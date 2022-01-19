@@ -1,1 +1,38 @@
-<strengthen-upload (case)="submitCase($event)"></strengthen-upload>
+<strengthen-upload
+  *ngIf="!jobID"
+  (case)="submitCase($event)"
+></strengthen-upload>
+
+<div *ngIf="jobID">
+  <div *ngIf="!completed" class="p-2 flex flex-col space-y-2">
+    <p class="text-sm text-gray-700">
+      Job is currently running ... Progress: {{ progress }}%
+    </p>
+    <icon-button
+      (click)="refresh()"
+      [iconkey]="'refresh'"
+      [text]="'Refresh job status'"
+    ></icon-button>
+  </div>
+  <div *ngIf="completed && !jobFailed" class="p-2 flex flex-col space-y-2">
+    <p class="text-sm text-gray-700">Job is finished</p>
+    <img [src]="thumbnail" />
+    <div class="flex items-center justify-between">
+      <icon-button
+        (click)="downloadResults()"
+        [iconkey]="'download'"
+        [text]="'Download Results'"
+      ></icon-button>
+      <icon-button
+        (click)="reload()"
+        [iconkey]="'rss'"
+        [text]="'New Strengthen'"
+      ></icon-button>
+    </div>
+  </div>
+  <div *ngIf="jobFailed" class="p-2 flex flex-col space-y-2">
+    <p class="text-red-500">Job failed</p>
+    <p>Server said:</p>
+    <p class="text-sm text-gray-700">{{ failedReason }}</p>
+  </div>
+</div>

@@ -71,6 +71,28 @@ export class OptimizeController {
     return new StreamableFile(result);
   }
 
+  @Get('strengthenJob/:id')
+  async getStrengthenJob(@Res() res: Response, @Param('id') id: string) {
+    const job = await this.queue.getJob(id);
+    const jobIsCompleted = await job.isCompleted();
+    const jobHasFailed = await job.isFailed();
+    const progress = job.progress();
+    let failedReason = '';
+    if (jobHasFailed) failedReason = job.failedReason;
+    console.log({
+      completed: jobIsCompleted,
+      failed: jobHasFailed,
+      failedReason: failedReason,
+      progress: progress,
+    });
+    res.send({
+      completed: jobIsCompleted,
+      failed: jobHasFailed,
+      failedReason: failedReason,
+      progress: progress,
+    });
+  }
+
   @Post('blast')
   @UseInterceptors(AnyFilesInterceptor())
   async processBlastCase(@Body() body) {

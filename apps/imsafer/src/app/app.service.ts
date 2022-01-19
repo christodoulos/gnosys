@@ -18,6 +18,15 @@ export class ImsaferService {
     return this.http.post<StrengthenJob>('/api/optimize/blast', data);
   }
 
+  getStrengthenJob(jobID: string) {
+    return this.http.get<{
+      completed?: boolean;
+      failed?: boolean;
+      failedReason?: string;
+      progress?: string;
+    }>(`/api/optimize/strengthenJob/${jobID}`);
+  }
+
   getBlastJob(jobID: string) {
     return this.http.get<{
       completed?: boolean;
@@ -55,5 +64,21 @@ export class ImsaferService {
         document.body.appendChild(downloadLink);
         downloadLink.click();
       });
+  }
+
+  createImageFromBlob(image: Blob): string | ArrayBuffer | null {
+    const reader = new FileReader();
+    // reader.addEventListener(
+    //   'load',
+    //   async () => {
+    //     return reader.result;
+    //   },
+    //   false
+    // );
+
+    if (image) {
+      reader.readAsDataURL(image);
+    }
+    return reader.result;
   }
 }
