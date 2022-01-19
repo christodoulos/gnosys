@@ -24,6 +24,7 @@ export class StrengthenComponent {
       .pipe(untilDestroyed(this))
       .subscribe((data) => {
         this.jobID = data['jobID'];
+        this.caseName = data['name'];
         // this.router.navigate(['Results']);
         if (this.jobID) {
           this.service
@@ -47,11 +48,11 @@ export class StrengthenComponent {
           if (job.completed && !job.failed && this.jobID) {
             this.completed = true;
             this.service
-              .getBlastJobImage(this.jobID)
+              .getStrengthenJobImage(this.jobID)
               .pipe(untilDestroyed(this))
               .subscribe((img) => {
-                // this.createImageFromBlob(img);
-                this.thumbnail = this.service.createImageFromBlob(img);
+                this.createImageFromBlob(img);
+                // this.thumbnail = this.service.createImageFromBlob(img);
               });
           }
           if (job.failed) {
@@ -72,5 +73,20 @@ export class StrengthenComponent {
       this.jobID || '',
       this.caseName
     );
+  }
+
+  createImageFromBlob(image: Blob) {
+    const reader = new FileReader();
+    reader.addEventListener(
+      'load',
+      () => {
+        this.thumbnail = reader.result;
+      },
+      false
+    );
+
+    if (image) {
+      reader.readAsDataURL(image);
+    }
   }
 }

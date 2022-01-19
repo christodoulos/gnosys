@@ -34,5 +34,10 @@
     <p class="text-red-500">Job failed</p>
     <p>Server said:</p>
     <p class="text-sm text-gray-700">{{ failedReason }}</p>
+    <icon-button
+      (click)="reload()"
+      [iconkey]="'rss'"
+      [text]="'New Strengthen'"
+    ></icon-button>
   </div>
 </div>

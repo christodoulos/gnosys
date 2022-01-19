@@ -41,6 +41,12 @@ export class ImsaferService {
     });
   }
 
+  getStrengthenJobImage(jobID: string) {
+    return this.http.get(`/api/optimize/strengthen/${jobID}/picture`, {
+      responseType: 'blob',
+    });
+  }
+
   reloadComponent(path: string) {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate([path]);

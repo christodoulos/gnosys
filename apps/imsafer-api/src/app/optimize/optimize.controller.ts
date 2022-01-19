@@ -71,6 +71,20 @@ export class OptimizeController {
     return new StreamableFile(result);
   }
 
+  @Get('strengthen/:id/picture')
+  @Header('Content-Type', 'image/jpg')
+  @Header('Content-Disposition', 'attachment; filename=Data_r.jpg')
+  async getStrengthenResultPicture(
+    @Res({ passthrough: true }) res: Response,
+    @Param('id') id: string
+  ): Promise<StreamableFile> {
+    const job = await this.queue.getJob(id);
+    const { name, uuid } = job.data;
+    const plot = `/tmp/imsafer/strengthen/${name}-${uuid}/Data_r.jpg`;
+    const data = createReadStream(plot);
+    return new StreamableFile(data);
+  }
+
   @Get('strengthenJob/:id')
   async getStrengthenJob(@Res() res: Response, @Param('id') id: string) {
     const job = await this.queue.getJob(id);
