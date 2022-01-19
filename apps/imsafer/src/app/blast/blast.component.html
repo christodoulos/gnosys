@@ -1,36 +1,44 @@
-<div class="p-2 flex flex-col">
-  <label for="email" class="block text-sm font-medium text-gray-700"
-    >Blast Case ID:</label
-  >
-  <div class="mt-1">
-    <input
-      [(ngModel)]="name"
-      type="text"
-      name="name"
-      id="name"
-      class="p-2 text-sm shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block border-gray-300"
-    />
+<div *ngIf="!jobID">
+  <div class="p-2 flex flex-col">
+    <label for="email" class="block text-sm font-medium text-gray-700"
+      >Blast Case ID:</label
+    >
+    <div class="mt-1">
+      <input
+        [(ngModel)]="name"
+        type="text"
+        name="name"
+        id="name"
+        class="p-2 text-sm shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block border-gray-300"
+      />
+    </div>
+  </div>
+
+  <div class="p-2 flex flex-col text-sm space-y-2">
+    <p class="block text-sm font-medium text-gray-700">
+      Blast case parameters:
+    </p>
+    <form-simple-top-down [formGroup]="form"></form-simple-top-down>
+
+    <icon-button
+      (click)="onSubmit()"
+      [iconkey]="'rss'"
+      [text]="'Blast'"
+      [notAllowed]="!form.valid && name === ''"
+    ></icon-button>
   </div>
 </div>
 
-<div class="p-2 flex flex-col text-sm space-y-2">
-  <p class="block text-sm font-medium text-gray-700">Blast case parameters:</p>
-  <form-simple-top-down [formGroup]="form"></form-simple-top-down>
-  <button
-    (click)="onSubmit()"
-    class=" w-max inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 {{
-      form.valid && name !== '' ? 'cursor-pointer' : 'cursor-not-allowed'
-    }}"
-  >
-    <svg-icon [key]="'rss'" class="mr-2"></svg-icon> Blast
-  </button>
-</div>
-
 <div *ngIf="jobID">
-  <p *ngIf="!completed">
+  <div *ngIf="!completed">
     Job is running <span (click)="refresh()">Refresh</span>
-  </p>
-  <p *ngIf="completed">
+  </div>
+  <div *ngIf="completed" class="flex flex-col">
     Job is finished<img [src]="thumbnail" />{{ failedReason }}
-  </p>
+    <icon-button
+      (click)="reload()"
+      [iconkey]="'rss'"
+      [text]="'New Blast'"
+    ></icon-button>
+  </div>
 </div>

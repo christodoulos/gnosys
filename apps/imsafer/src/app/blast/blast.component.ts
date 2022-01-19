@@ -1,23 +1,21 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { Validators } from '@angular/forms';
-import { UploadService } from '../upload.service';
-import { Router } from '@angular/router';
-import { DomSanitizer } from '@angular/platform-browser';
+import { ImsaferService } from '../app.service';
 
 @Component({
   templateUrl: './blast.component.html',
   styleUrls: ['./blast.component.css'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BlastComponent implements OnInit {
+export class BlastComponent {
   jobID: string | undefined;
   completed: boolean | undefined;
-  thumbnail: any;
+  thumbnail: ArrayBuffer | string | null | undefined;
   failedReason = '';
   name = '';
   numberRegEx = /^-?\d*\.?\d*$/;
   form = new FormGroup({
+    blastCaseID: new FormControl('', [Validators.required]),
     chargeWeight: new FormControl('', [
       Validators.required,
       Validators.pattern(this.numberRegEx),
@@ -40,12 +38,7 @@ export class BlastComponent implements OnInit {
     ]),
   });
 
-  constructor(
-    private service: UploadService,
-    private sanitizer: DomSanitizer
-  ) {}
-
-  ngOnInit(): void {}
+  constructor(private service: ImsaferService) {}
 
   onSubmit() {
     if (this.form.valid && this.name !== '') {
@@ -55,11 +48,8 @@ export class BlastComponent implements OnInit {
 
       this.service.blastJob(formData).subscribe((data) => {
         this.jobID = data['jobID'];
-        console.log(this.jobID);
         if (this.jobID) {
-          console.log('lala');
           this.service.getBlastJob(this.jobID).subscribe((job) => {
-            console.log(job);
             this.completed = job.completed;
           });
         }
@@ -90,6 +80,7 @@ export class BlastComponent implements OnInit {
       'load',
       () => {
         this.thumbnail = reader.result;
+        console.log(reader.result);
       },
       false
     );
@@ -97,5 +88,9 @@ export class BlastComponent implements OnInit {
     if (image) {
       reader.readAsDataURL(image);
     }
+  }
+
+  reload() {
+    this.service.reloadComponent('/Blast');
   }
 }
