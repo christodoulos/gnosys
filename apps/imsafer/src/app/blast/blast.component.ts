@@ -11,8 +11,9 @@ export class BlastComponent {
   jobID: string | undefined;
   completed: boolean | undefined;
   thumbnail: ArrayBuffer | string | null | undefined;
+  jobFailed = false;
   failedReason = '';
-  name = '';
+  caseName = '';
   numberRegEx = /^-?\d*\.?\d*$/;
   form = new FormGroup({
     blastCaseID: new FormControl('', [Validators.required]),
@@ -41,13 +42,14 @@ export class BlastComponent {
   constructor(private service: ImsaferService) {}
 
   onSubmit() {
-    if (this.form.valid && this.name !== '') {
+    if (this.form.valid) {
       const formData = new FormData();
-      formData.append('name', this.name);
+      formData.append('name', this.form.value.blastCaseID);
       formData.append('data', JSON.stringify(this.form.value));
 
       this.service.blastJob(formData).subscribe((data) => {
         this.jobID = data['jobID'];
+        this.caseName = data['name'];
         if (this.jobID) {
           this.service.getBlastJob(this.jobID).subscribe((job) => {
             this.completed = job.completed;
@@ -60,7 +62,6 @@ export class BlastComponent {
   refresh() {
     if (this.jobID)
       this.service.getBlastJob(this.jobID).subscribe((job) => {
-        console.log('refresh', job);
         if (job.completed && !job.failed && this.jobID) {
           this.completed = true;
           this.service.getBlastJobImage(this.jobID).subscribe((img) => {
@@ -69,6 +70,7 @@ export class BlastComponent {
         }
         if (job.failed) {
           this.failedReason = job.failedReason || '';
+          this.jobFailed = true;
           this.completed = true;
         }
       });
@@ -80,7 +82,6 @@ export class BlastComponent {
       'load',
       () => {
         this.thumbnail = reader.result;
-        console.log(reader.result);
       },
       false
     );
@@ -92,5 +93,13 @@ export class BlastComponent {
 
   reload() {
     this.service.reloadComponent('/Blast');
+  }
+
+  downloadResults() {
+    this.service.downloadResults(
+      '/api/optimize/blastResults',
+      this.jobID || '',
+      this.caseName
+    );
   }
 }

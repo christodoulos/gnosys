@@ -78,6 +78,21 @@ export class OptimizeController {
     return this.blastProducer.blastNew(body.name, JSON.parse(body.data), uuid);
   }
 
+  @Get('blastResults/:id')
+  async blastResults(
+    @Res({ passthrough: true }) res: Response,
+    @Param('id') id: string
+  ): Promise<StreamableFile> {
+    const job = await this.blastQueue.getJob(id);
+    const name = job.data['name'];
+    res.set({
+      'Content-Type': 'application/zip',
+      'Content-Disposition': `attachment; filename="${name}.zip"`,
+    });
+    const result = Buffer.from(job.returnvalue);
+    return new StreamableFile(result);
+  }
+
   @Get('blast/:id')
   async getBlastResults(@Res() res: Response, @Param('id') id: string) {
     const job = await this.blastQueue.getJob(id);

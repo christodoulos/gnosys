@@ -37,4 +37,23 @@ export class ImsaferService {
       this.router.navigate([path]);
     });
   }
+
+  downloadResults(baseURL: string, jobID: string, filename: string): void {
+    const _baseUrl = `${baseURL}/${jobID}`;
+
+    this.http
+      .get(_baseUrl, { responseType: 'blob' as 'json' })
+      .subscribe((response: any) => {
+        const dataType = response.type;
+        const binaryData = [];
+        binaryData.push(response);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = window.URL.createObjectURL(
+          new Blob(binaryData, { type: dataType })
+        );
+        if (filename) downloadLink.setAttribute('download', `${filename}.zip`);
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+      });
+  }
 }
