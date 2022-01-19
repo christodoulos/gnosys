@@ -25,7 +25,7 @@ export class StrengthenComponent {
       .subscribe((data) => {
         this.jobID = data['jobID'];
         this.caseName = data['name'];
-        // this.router.navigate(['Results']);
+        this.router.navigate(['Results']);
         if (this.jobID) {
           this.service
             .getStrengthenJob(this.jobID)
