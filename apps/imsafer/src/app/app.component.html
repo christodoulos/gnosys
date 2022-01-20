@@ -12,18 +12,25 @@
   <div class="mt-2 md:flex">
     <div class="w-full mb-2 md:mb-0 md:w-1/4 mr-2">
       <sidebar0
-        [items]="[
-          { icon: 'solid-server', text: 'Robust' },
-          { icon: 'solid-fire', text: 'Fire Safety' },
-          { icon: 'solid-logout', text: 'Evacuation' },
-          { icon: 'solid-question-mark-circle', text: 'Risk' }
-        ]"
+        [items]="(sidebar$ | async) || []"
+        (selection)="dispatch(sidebarNavigationAction({ navlist: $event }))"
       ></sidebar0>
     </div>
-    <div class="p-2 w-full md:w-3/4 border border-gray-300">
+    <div class="w-full md:w-3/4 space-y-4">
+      <div class="flex flex-row items-center space-x-2">
+        <div class="bg-white text-xl font-semibold">
+          {{ (sidebarActive$ | async)?.text }}
+        </div>
+        <topbar0
+          [items]="(topbar$ | async) || []"
+          (selection)="dispatch(topbarNavigationAction({ navlist: $event }))"
+        ></topbar0>
+      </div>
+
       <!-- Content -->
-      <file-upload></file-upload>
+      <div class="flex justify-start bg-gray-200">
+        <router-outlet></router-outlet>
+      </div>
     </div>
   </div>
-  <div class="mt-2 p-2 flex items-center border border-gray-300">Footer</div>
 </div>

@@ -17,6 +17,8 @@ import { Logo0Component } from './logo0/logo0.component';
 import { TopLogin0Component } from './top-login0/top-login0.component';
 import { Sidebar0Component } from './sidebar0/sidebar0.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
+import { Topbar0Component } from './topbar0/topbar0.component';
+import { IconButtonComponent } from './icon-button/icon-button.component';
 
 @NgModule({
   imports: [
@@ -33,6 +35,8 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
     TopLogin0Component,
     Sidebar0Component,
     FileUploadComponent,
+    Topbar0Component,
+    IconButtonComponent,
   ],
   exports: [
     CodemirrorComponent,
@@ -41,6 +45,8 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
     TopLogin0Component,
     Sidebar0Component,
     FileUploadComponent,
+    Topbar0Component,
+    IconButtonComponent,
   ],
   providers: [
     {

@@ -1,7 +1,18 @@
-import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
+import { Router } from '@angular/router';
+import { withLatestFrom } from 'rxjs';
 import { FileUploadService } from './file-upload.service';
+
+export interface FileInfo {
+  name: string;
+  size: number;
+  type: string;
+}
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -10,62 +21,49 @@ import { FileUploadService } from './file-upload.service';
   styleUrls: ['./file-upload.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FileUploadComponent implements OnInit {
+export class FileUploadComponent {
   selectedFiles?: FileList;
-  currentFile?: File;
-  progress = 0;
-  message = '';
-  fileInfos?: Observable<any>;
+  filenames: Array<FileInfo> = [];
 
-  constructor(private service: FileUploadService) {}
+  constructor(private service: FileUploadService, private router: Router) {}
 
-  ngOnInit(): void {
-    this.fileInfos = this.service.getFiles();
-    console.log('ngOnInit', this.fileInfos);
-  }
-
-  selectFile(event: any): void {
-    this.selectedFiles = event.target.files;
-    console.log(event.target.files);
+  onFileSelection(event: Event) {
+    this.filenames = [];
+    const target = event.target as HTMLInputElement;
+    this.selectedFiles = target.files as FileList;
+    for (const a of Array.from(this.selectedFiles))
+      this.filenames.push({ size: a.size, name: a.name, type: a.type });
   }
 
   upload(): void {
-    this.progress = 0;
+    const formData = new FormData();
+    if (this.selectedFiles?.length) {
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        formData.append(
+          'file',
+          this.selectedFiles[i],
+          this.selectedFiles[i].name
+        );
+      }
+      this.service.uploadFiles(formData).subscribe((data) => {
+        console.log('UPLOAD');
+        console.log(data);
+        this.selectedFiles = undefined;
+        this.filenames = [];
+      });
+    }
+  }
 
+  strengthen(caseName: string): void {
     if (this.selectedFiles) {
       const file: File | null = this.selectedFiles.item(0);
-
-      if (file) {
-        this.currentFile = file;
-
-        this.service.upload(this.currentFile).subscribe({
-          next: (event: any) => {
-            if (event.type === HttpEventType.UploadProgress) {
-              this.progress = Math.round((100 * event.loaded) / event.total);
-              console.log(this.progress);
-            } else if (event instanceof HttpResponse) {
-              console.log(event);
-              // this.message = event.body.message;
-              this.fileInfos = this.service.getFiles();
-              console.log(this.fileInfos);
-            }
-          },
-          error: (err: any) => {
-            console.log(err);
-            this.progress = 0;
-
-            if (err.error && err.error.message) {
-              this.message = err.error.message;
-            } else {
-              this.message = 'Could not upload the file!';
-            }
-
-            this.currentFile = undefined;
-          },
+      if (file)
+        this.service.upload(file, caseName).subscribe((data) => {
+          console.log('STRENGTHEN');
+          console.log(data);
+          this.selectedFiles = undefined;
+          this.filenames = [];
         });
-      }
-
-      this.selectedFiles = undefined;
     }
   }
 }

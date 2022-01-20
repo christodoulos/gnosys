@@ -20,6 +20,7 @@
       "@gnosys/interfaces": ["libs/interfaces/src/index.ts"],
       "@gnosys/mail": ["libs/mail/src/index.ts"],
       "@gnosys/schemas": ["libs/schemas/src/index.ts"],
+      "@gnosys/state": ["libs/state/src/index.ts"],
       "@gnosys/ui": ["libs/ui/src/index.ts"],
       "@gnosys/upload": ["libs/upload/src/index.ts"],
       "@gnosys/user": ["libs/user/src/index.ts"]
