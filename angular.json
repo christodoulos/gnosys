@@ -488,6 +488,124 @@
       },
       "tags": []
     },
+    "ntuadt": {
+      "projectType": "application",
+      "root": "apps/ntuadt",
+      "sourceRoot": "apps/ntuadt/src",
+      "prefix": "gnosys",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/ntuadt",
+            "index": "apps/ntuadt/src/index.html",
+            "main": "apps/ntuadt/src/main.ts",
+            "polyfills": "apps/ntuadt/src/polyfills.ts",
+            "tsConfig": "apps/ntuadt/tsconfig.app.json",
+            "assets": ["apps/ntuadt/src/favicon.ico", "apps/ntuadt/src/assets"],
+            "styles": ["apps/ntuadt/src/styles.css"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/ntuadt/src/environments/environment.ts",
+                  "with": "apps/ntuadt/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "ntuadt:build:production"
+            },
+            "development": {
+              "browserTarget": "ntuadt:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ntuadt:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/ntuadt/src/**/*.ts",
+              "apps/ntuadt/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/ntuadt"],
+          "options": {
+            "jestConfig": "apps/ntuadt/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "ntuadt-e2e": {
+      "root": "apps/ntuadt-e2e",
+      "sourceRoot": "apps/ntuadt-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/ntuadt-e2e/cypress.json",
+            "devServerTarget": "ntuadt:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ntuadt:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/ntuadt-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["ntuadt"]
+    },
     "schemas": {
       "root": "libs/schemas",
       "sourceRoot": "libs/schemas/src",
