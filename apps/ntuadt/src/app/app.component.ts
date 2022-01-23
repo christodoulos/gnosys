@@ -8,19 +8,20 @@ import { Map, SymbolLayer } from 'mapbox-gl';
 })
 export class AppComponent {
   title = 'ntuadt';
-  labelLayerId!: string;
+  labelLayerId: string | undefined;
 
   onLoad(mapInstance: Map) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const layers = mapInstance.getStyle().layers!;
+    const layers = mapInstance.getStyle().layers;
 
-    for (let i = 0; i < layers.length; i++) {
-      if (
-        layers[i].type === 'symbol' &&
-        (<SymbolLayer>layers[i]).layout?.['text-field']
-      ) {
-        this.labelLayerId = layers[i].id;
-        break;
+    if (layers) {
+      for (let i = 0; i < layers.length; i++) {
+        if (
+          layers[i].type === 'symbol' &&
+          (<SymbolLayer>layers[i]).layout?.['text-field']
+        ) {
+          this.labelLayerId = layers[i].id;
+          break;
+        }
       }
     }
   }
