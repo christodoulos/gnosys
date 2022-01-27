@@ -1,14 +1,40 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Map, SymbolLayer } from 'mapbox-gl';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
+
+export interface Stop {
+  // StopLat: string;
+  // StopLng: string;
+  [key: string]: string;
+}
 
 @Component({
   selector: 'gnosys-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'ntuadt';
   labelLayerId: string | undefined;
+  items$: Observable<Stop | undefined>;
+
+  constructor(afs: AngularFirestore) {
+    this.items$ = afs.doc<Stop>('bus242/stops').valueChanges();
+  }
+
+  ngOnInit(): void {
+    this.items$.subscribe((data) => {
+      console.log(data);
+    });
+  }
+
+  lngLat(stop: any): [number, number] {
+    console.log(stop);
+    // const stop = JSON.parse(_stop);
+    console.log([parseFloat(stop['StopLng']), parseFloat(stop['StopLat'])]);
+    return [parseFloat(stop['StopLng']), parseFloat(stop['StopLat'])];
+  }
 
   onLoad(mapInstance: Map) {
     const layers = mapInstance.getStyle().layers;

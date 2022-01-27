@@ -1,6 +1,6 @@
 <mgl-map
   [style]="'mapbox://styles/mapbox/light-v9'"
-  [zoom]="[11]"
+  [zoom]="[16]"
   [center]="[23.782529708901464, 37.97732290332949]"
   [pitch]="[45]"
   [bearing]="[-17.6]"
@@ -145,4 +145,7 @@
     }"
   >
   </mgl-layer>
+  <ng-container *ngFor="let item of items$ | async | keyvalue">
+    <mgl-marker [lngLat]="lngLat(item.value)"></mgl-marker>
+  </ng-container>
 </mgl-map>
