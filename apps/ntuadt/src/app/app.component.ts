@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   items$: Observable<Stop | undefined>;
 
   constructor(afs: AngularFirestore) {
-    this.items$ = afs.doc<Stop>('bus242/position').valueChanges();
+    this.items$ = afs.doc<Stop>('bus242/go_stops').valueChanges();
   }
 
   ngOnInit(): void {
@@ -34,8 +34,8 @@ export class AppComponent implements OnInit {
     const stop = _stop as unknown as { [key: string]: string };
     console.log(stop);
     // console.log([parseFloat(stop['StopLng']), parseFloat(stop['StopLat'])]);
-    // return [parseFloat(stop['StopLng']), parseFloat(stop['StopLat'])];
-    return [parseFloat(stop['CS_LNG']), parseFloat(stop['CS_LAT'])];
+    return [parseFloat(stop['StopLng']), parseFloat(stop['StopLat'])];
+    // return [parseFloat(stop['CS_LNG']), parseFloat(stop['CS_LAT'])];
   }
 
   onLoad(mapInstance: Map) {
