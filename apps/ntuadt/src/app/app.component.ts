@@ -38,6 +38,11 @@ export class AppComponent implements OnInit {
     // return [parseFloat(stop['CS_LNG']), parseFloat(stop['CS_LAT'])];
   }
 
+  info(_stop: string): string {
+    const stop = _stop as unknown as { [key: string]: string };
+    return stop['StopDescr'];
+  }
+
   onLoad(mapInstance: Map) {
     const layers = mapInstance.getStyle().layers;
 
