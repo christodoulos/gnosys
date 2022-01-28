@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Map, SymbolLayer } from 'mapbox-gl';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
+import { KeyValue } from '@angular/common';
 
 export interface Stop {
   // StopLat: string;
@@ -20,7 +21,7 @@ export class AppComponent implements OnInit {
   items$: Observable<Stop | undefined>;
 
   constructor(afs: AngularFirestore) {
-    this.items$ = afs.doc<Stop>('bus242/stops').valueChanges();
+    this.items$ = afs.doc<Stop>('bus242/position').valueChanges();
   }
 
   ngOnInit(): void {
@@ -29,11 +30,12 @@ export class AppComponent implements OnInit {
     });
   }
 
-  lngLat(stop: any): [number, number] {
+  lngLat(_stop: string): [number, number] {
+    const stop = _stop as unknown as { [key: string]: string };
     console.log(stop);
-    // const stop = JSON.parse(_stop);
-    console.log([parseFloat(stop['StopLng']), parseFloat(stop['StopLat'])]);
-    return [parseFloat(stop['StopLng']), parseFloat(stop['StopLat'])];
+    // console.log([parseFloat(stop['StopLng']), parseFloat(stop['StopLat'])]);
+    // return [parseFloat(stop['StopLng']), parseFloat(stop['StopLat'])];
+    return [parseFloat(stop['CS_LNG']), parseFloat(stop['CS_LAT'])];
   }
 
   onLoad(mapInstance: Map) {
