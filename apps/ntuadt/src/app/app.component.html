@@ -145,6 +145,7 @@
     }"
   >
   </mgl-layer>
+  <mgl-layer [id]="'3d-model'" [type]="'custom'">lala</mgl-layer>
   <ng-container *ngFor="let item of items$ | async | keyvalue; let i = index">
     <mgl-marker #busstop [lngLat]="lngLat(item.value)"></mgl-marker>
     <mgl-popup [marker]="busstop">{{ info(item.value) }}</mgl-popup>
