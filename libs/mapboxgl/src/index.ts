@@ -1,0 +1,6 @@
+export * from './lib/mapboxgl.module';
+export * from './lib/map/map.component';
+export * from './lib/layer/layer.component';
+export * from './lib/marker/marker.component';
+export * from './lib/popup/popup.component';
+export * from './lib/map/map.service';

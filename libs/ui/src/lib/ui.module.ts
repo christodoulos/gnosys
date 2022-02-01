@@ -19,6 +19,7 @@ import { Sidebar0Component } from './sidebar0/sidebar0.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { Topbar0Component } from './topbar0/topbar0.component';
 import { IconButtonComponent } from './icon-button/icon-button.component';
+import { FormToTextBufferComponent } from './form-to-text-buffer/form-to-text-buffer.component';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { IconButtonComponent } from './icon-button/icon-button.component';
     FileUploadComponent,
     Topbar0Component,
     IconButtonComponent,
+    FormToTextBufferComponent,
   ],
   exports: [
     CodemirrorComponent,
@@ -47,6 +49,7 @@ import { IconButtonComponent } from './icon-button/icon-button.component';
     FileUploadComponent,
     Topbar0Component,
     IconButtonComponent,
+    FormToTextBufferComponent,
   ],
   providers: [
     {

@@ -488,6 +488,49 @@
       },
       "tags": []
     },
+    "mapboxgl": {
+      "projectType": "library",
+      "root": "libs/mapboxgl",
+      "sourceRoot": "libs/mapboxgl/src",
+      "prefix": "gnosys",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:ng-packagr-lite",
+          "outputs": ["dist/libs/mapboxgl"],
+          "options": {
+            "project": "libs/mapboxgl/ng-package.json",
+            "tailwindConfig": "libs/mapboxgl/tailwind.config.js"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/mapboxgl/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/mapboxgl/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/mapboxgl"],
+          "options": {
+            "jestConfig": "libs/mapboxgl/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/mapboxgl/src/**/*.ts",
+              "libs/mapboxgl/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
     "ntuadt": {
       "projectType": "application",
       "root": "apps/ntuadt",
@@ -512,8 +555,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "1500kb",
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
