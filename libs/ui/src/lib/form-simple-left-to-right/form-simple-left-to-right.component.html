@@ -1,0 +1,14 @@
+<form [formGroup]="formGroup" class="max-w-md">
+  <div class="p-2 flex space-x-2 overflow-x-auto">
+    <div
+      *ngFor="let control of controls"
+      class="flex space-x-2 whitespace-nowrap"
+    >
+      <label class="font-semibold">{{ statCase(control.name) }}:</label>
+      <input
+        class="w-{{ inputWidth(ncontrols) }}"
+        formControlName="{{ control.name }}"
+      />
+    </div>
+  </div>
+</form>

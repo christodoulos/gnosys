@@ -4,27 +4,36 @@ import {
   ChangeDetectionStrategy,
   Input,
 } from '@angular/core';
-import { FormControl, FormGroup, ControlsOf } from '@ngneat/reactive-forms';
+import { FormGroup, ControlsOf, FormControl } from '@ngneat/reactive-forms';
 import { Generic, Controls } from '@gnosys/interfaces';
-import { FormErrorService } from '../form-error.service';
 import * as _ from 'lodash';
+import { FormErrorService } from '../form-error.service';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'form-simple-top-down',
-  templateUrl: './form-simple-top-down.component.html',
-  styleUrls: ['./form-simple-top-down.component.css'],
+  selector: 'form-simple-left-to-right',
+  templateUrl: './form-simple-left-to-right.component.html',
+  styleUrls: ['./form-simple-left-to-right.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormSimpleTopDownComponent implements OnInit {
+export class FormSimpleLeftToRightComponent implements OnInit {
   @Input() formGroup!: FormGroup<ControlsOf<Generic>>;
   controls: Array<Controls> = [];
-
+  ncontrols = 0;
   constructor(private service: FormErrorService) {}
 
   ngOnInit(): void {
     for (const [k, v] of Object.entries(this.formGroup.controls)) {
       this.controls.push({ name: k, value: v });
+      this.ncontrols += 1;
+    }
+  }
+
+  inputWidth(i: number): number {
+    if (i > 10) {
+      return 10;
+    } else {
+      return 20;
     }
   }
 

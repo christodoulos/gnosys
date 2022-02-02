@@ -14,6 +14,7 @@ import { StrengthenComponent } from './strengthen/strengthen.component';
 import { StrengthenUploadComponent } from './strengthen/strengthen-upload/strengthen-upload.component';
 import { ResultsComponent } from './results/results.component';
 import { BlastComponent } from './blast/blast.component';
+import { FireComponent } from './fire/fire.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { BlastComponent } from './blast/blast.component';
     ResultsComponent,
     StrengthenUploadComponent,
     BlastComponent,
+    FireComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,6 +33,7 @@ import { BlastComponent } from './blast/blast.component';
       { path: 'Strengthen', component: StrengthenComponent },
       { path: 'Blast', component: BlastComponent },
       { path: 'Results', component: ResultsComponent },
+      { path: 'Fire 0', component: FireComponent },
       { path: '**', component: WelcomeComponent },
     ]),
     EffectsNgModule.forRoot([ImsaferUIEffects]),
