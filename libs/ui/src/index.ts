@@ -10,3 +10,4 @@ export * from './lib/sidebar0/sidebar0.component';
 export * from './lib/top-login0/top-login0.component';
 export * from './lib/logo0/logo0.component';
 export * from './lib/icon-button/icon-button.component';
+export * from './lib/form-simple-left-to-right/form-simple-left-to-right.component';

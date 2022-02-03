@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { EffectsNgModule } from '@ngneat/effects-ng';
@@ -29,6 +29,7 @@ import { FireComponent } from './fire/fire.component';
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot([
       { path: 'Strengthen', component: StrengthenComponent },
       { path: 'Blast', component: BlastComponent },

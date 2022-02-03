@@ -10,67 +10,139 @@ import { Validators } from '@angular/forms';
 })
 export class FireComponent implements OnInit {
   numberRegEx = /^-?\d*\.?\d*$/;
-  form = new FormGroup({
-    p1: new FormControl('10', [Validators.required]),
-    p2: new FormControl('20', [
-      Validators.required,
-      Validators.pattern(this.numberRegEx),
-    ]),
-    p3: new FormControl('30', [
-      Validators.required,
-      Validators.pattern(this.numberRegEx),
-    ]),
-    p4: new FormControl('40', [
-      Validators.required,
-      Validators.pattern(this.numberRegEx),
-    ]),
-    p5: new FormControl('50', [
-      Validators.required,
-      Validators.pattern(this.numberRegEx),
-    ]),
-    p6: new FormControl('60', [
-      Validators.required,
-      Validators.pattern(this.numberRegEx),
-    ]),
-    p7: new FormControl('10', [Validators.required]),
-    p8: new FormControl('20', [
-      Validators.required,
-      Validators.pattern(this.numberRegEx),
-    ]),
-    p9: new FormControl('30', [
-      Validators.required,
-      Validators.pattern(this.numberRegEx),
-    ]),
-    p10: new FormControl('40', [
-      Validators.required,
-      Validators.pattern(this.numberRegEx),
-    ]),
-    p11: new FormControl('50', [
-      Validators.required,
-      Validators.pattern(this.numberRegEx),
-    ]),
-    p12: new FormControl('60', [
-      Validators.required,
-      Validators.pattern(this.numberRegEx),
-    ]),
-    p13: new FormControl('60', [
-      Validators.required,
-      Validators.pattern(this.numberRegEx),
-    ]),
-    p14: new FormControl('60', [
-      Validators.required,
-      Validators.pattern(this.numberRegEx),
-    ]),
-    p15: new FormControl('60', [
-      Validators.required,
-      Validators.pattern(this.numberRegEx),
-    ]),
-    p16: new FormControl('60', [
+  formvals = ['1', '3'];
+  formulations = ['Minimize budget', 'Maximize FSI'];
+
+  form1 = new FormGroup({
+    formulation: new FormControl('', [
       Validators.required,
       Validators.pattern(this.numberRegEx),
     ]),
   });
+
+  form2 = new FormGroup({
+    area: new FormControl('7000.0', [
+      Validators.required,
+      Validators.pattern(this.numberRegEx),
+    ]),
+  });
+
+  form3 = new FormGroup({
+    1: new FormControl('40.0', [
+      Validators.required,
+      Validators.pattern(this.numberRegEx),
+    ]),
+    2: new FormControl('40.0', [
+      Validators.required,
+      Validators.pattern(this.numberRegEx),
+    ]),
+    3: new FormControl('10.0', [
+      Validators.required,
+      Validators.pattern(this.numberRegEx),
+    ]),
+    4: new FormControl('30.0', [
+      Validators.required,
+      Validators.pattern(this.numberRegEx),
+    ]),
+    5: new FormControl('10.0', [
+      Validators.required,
+      Validators.pattern(this.numberRegEx),
+    ]),
+    6: new FormControl('30.0', [
+      Validators.required,
+      Validators.pattern(this.numberRegEx),
+    ]),
+    7: new FormControl('20.0', [
+      Validators.required,
+      Validators.pattern(this.numberRegEx),
+    ]),
+    8: new FormControl('10.0', [
+      Validators.required,
+      Validators.pattern(this.numberRegEx),
+    ]),
+    9: new FormControl('30.0', [
+      Validators.required,
+      Validators.pattern(this.numberRegEx),
+    ]),
+    10: new FormControl('40.0', [
+      Validators.required,
+      Validators.pattern(this.numberRegEx),
+    ]),
+    11: new FormControl('40.0', [
+      Validators.required,
+      Validators.pattern(this.numberRegEx),
+    ]),
+    12: new FormControl('20.0', [
+      Validators.required,
+      Validators.pattern(this.numberRegEx),
+    ]),
+    13: new FormControl('10.0', [
+      Validators.required,
+      Validators.pattern(this.numberRegEx),
+    ]),
+    14: new FormControl('10.0', [
+      Validators.required,
+      Validators.pattern(this.numberRegEx),
+    ]),
+    15: new FormControl('20.0', [
+      Validators.required,
+      Validators.pattern(this.numberRegEx),
+    ]),
+    16: new FormControl('20.0', [
+      Validators.required,
+      Validators.pattern(this.numberRegEx),
+    ]),
+  });
+
+  form4 = new FormGroup({
+    targetBudget: new FormControl('1000000.0', [
+      Validators.required,
+      Validators.pattern(this.numberRegEx),
+    ]),
+    targetEpsilon: new FormControl('0.70', [
+      Validators.required,
+      Validators.pattern(this.numberRegEx),
+    ]),
+  });
+
   constructor() {}
 
   ngOnInit(): void {}
+
+  changeFormulation(e: any) {
+    console.log(e);
+    this.form1.controls.formulation.setValue(e.target.value, {
+      onlySelf: true,
+    });
+  }
+
+  reload() {
+    // Awfull hack but desparate times call for desparate measures
+    if (
+      this.form1.valid &&
+      this.form2.valid &&
+      this.form3.valid &&
+      this.form4.valid
+    ) {
+      let input = '';
+      for (const [, v] of Object.entries(this.form1.value)) {
+        input += v;
+      }
+      input += '\n';
+      for (const [, v] of Object.entries(this.form2.value)) {
+        input += v;
+      }
+      input += '\n';
+      for (const [, v] of Object.entries(this.form3.value)) {
+        input += `${v} `;
+      }
+      input = input.trim();
+      input += '\n';
+      for (const [, v] of Object.entries(this.form4.value)) {
+        input += `${v} `;
+      }
+      input = input.trim();
+      console.log(input);
+    }
+  }
 }

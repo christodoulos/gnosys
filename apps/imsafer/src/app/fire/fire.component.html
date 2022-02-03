@@ -1,3 +1,31 @@
-<div class="p-2">
-  <form-simple-left-to-right [formGroup]="form"></form-simple-left-to-right>
+<div class="p-2 text-sm flex flex-col space-y-2">
+  <p class="font-semibold">Formulation:</p>
+  <form [formGroup]="form1" class="text-sm">
+    <select
+      class="text-xs h-10"
+      (change)="changeFormulation($event)"
+      formControlName="formulation"
+    >
+      <option value="" disabled>Choose a formulation</option>
+      <option
+        *ngFor="let formulation of formulations; index as i"
+        [ngValue]="formvals[i]"
+      >
+        {{ formulation }}
+      </option>
+    </select>
+  </form>
+  <p class="font-semibold">All floors of the building in m2</p>
+  <form-simple-left-to-right [formGroup]="form2"></form-simple-left-to-right>
+  <p class="font-semibold">
+    Cost per m2 of each 1 of the 16 measures, in currency/m2:
+  </p>
+  <form-simple-left-to-right [formGroup]="form3"></form-simple-left-to-right>
+  <form-simple-left-to-right [formGroup]="form4"></form-simple-left-to-right>
+  <icon-button
+    (click)="reload()"
+    [iconkey]="'solid-fire'"
+    [text]="'Optimize'"
+    [notAllowed]="!(form1.valid && form2.valid && form3.valid && form4.valid)"
+  ></icon-button>
 </div>

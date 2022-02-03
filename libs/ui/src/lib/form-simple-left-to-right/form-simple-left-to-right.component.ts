@@ -30,10 +30,11 @@ export class FormSimpleLeftToRightComponent implements OnInit {
   }
 
   inputWidth(i: number): number {
+    console.log(i);
     if (i > 10) {
-      return 10;
+      return 40;
     } else {
-      return 20;
+      return 40;
     }
   }
 
