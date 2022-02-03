@@ -1,17 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@ngneat/reactive-forms';
-
 import { Validators } from '@angular/forms';
+import { ImsaferService } from '../app.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'gnosys-fire',
   templateUrl: './fire.component.html',
   styleUrls: ['./fire.component.css'],
 })
-export class FireComponent implements OnInit {
+export class FireComponent {
   numberRegEx = /^-?\d*\.?\d*$/;
   formvals = ['1', '3'];
   formulations = ['Minimize budget', 'Maximize FSI'];
+
+  form0 = new FormGroup({
+    fireCaseID: new FormControl('', [Validators.required]),
+  });
 
   form1 = new FormGroup({
     formulation: new FormControl('', [
@@ -105,9 +111,7 @@ export class FireComponent implements OnInit {
     ]),
   });
 
-  constructor() {}
-
-  ngOnInit(): void {}
+  constructor(private service: ImsaferService) {}
 
   changeFormulation(e: any) {
     console.log(e);
@@ -116,9 +120,10 @@ export class FireComponent implements OnInit {
     });
   }
 
-  reload() {
+  onSubmit() {
     // Awfull hack but desparate times call for desparate measures
     if (
+      this.form0.valid &&
       this.form1.valid &&
       this.form2.valid &&
       this.form3.valid &&
@@ -142,7 +147,17 @@ export class FireComponent implements OnInit {
         input += `${v} `;
       }
       input = input.trim();
-      console.log(input);
+
+      const formData = new FormData();
+      formData.append('name', this.form0.value.fireCaseID);
+      formData.append('atc', input);
+
+      this.service
+        .fireJob(formData)
+        .pipe(untilDestroyed(this))
+        .subscribe((data) => {
+          console.log(data);
+        });
     }
   }
 }

@@ -1,4 +1,5 @@
 <div class="p-2 text-sm flex flex-col space-y-2">
+  <form-simple-left-to-right [formGroup]="form0"></form-simple-left-to-right>
   <p class="font-semibold">Formulation:</p>
   <form [formGroup]="form1" class="text-sm">
     <select
@@ -23,9 +24,11 @@
   <form-simple-left-to-right [formGroup]="form3"></form-simple-left-to-right>
   <form-simple-left-to-right [formGroup]="form4"></form-simple-left-to-right>
   <icon-button
-    (click)="reload()"
+    (click)="onSubmit()"
     [iconkey]="'solid-fire'"
     [text]="'Optimize'"
-    [notAllowed]="!(form1.valid && form2.valid && form3.valid && form4.valid)"
+    [notAllowed]="
+      !(form0.valid && form1.valid && form2.valid && form3.valid && form4.valid)
+    "
   ></icon-button>
 </div>

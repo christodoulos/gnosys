@@ -10,6 +10,8 @@ import { OptimizeService } from './optimize.service';
 import { StrengthenConsumer } from './strengthen.consumer';
 import { BlastProducer } from './blast.producer';
 import { BlastConsumer } from './blast.consumer';
+import { FireProducer } from './fire.producer';
+import { FireConsumer } from './fire.consumer';
 
 @Module({
   imports: [
@@ -19,7 +21,8 @@ import { BlastConsumer } from './blast.consumer';
     BullModule.registerQueue(
       { name: 'optimize' },
       { name: 'strengthen' },
-      { name: 'blast' }
+      { name: 'blast' },
+      { name: 'fire' }
     ),
   ],
   controllers: [OptimizeController],
@@ -29,6 +32,8 @@ import { BlastConsumer } from './blast.consumer';
     StrengthenConsumer,
     BlastProducer,
     BlastConsumer,
+    FireProducer,
+    FireConsumer,
     OptimizeService,
   ],
 })

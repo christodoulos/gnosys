@@ -18,6 +18,10 @@ export class ImsaferService {
     return this.http.post<StrengthenJob>('/api/optimize/blast', data);
   }
 
+  fireJob(data: FormData): Observable<any> {
+    return this.http.post<StrengthenJob>('/api/optimize/fire', data);
+  }
+
   getStrengthenJob(jobID: string) {
     return this.http.get<{
       completed?: boolean;

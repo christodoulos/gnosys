@@ -3,13 +3,9 @@ import { InjectQueue } from '@nestjs/bull';
 import { Injectable } from '@nestjs/common';
 import { Queue } from 'bull';
 
-import { OptimizeService } from './optimize.service';
 @Injectable()
 export class BlastProducer {
-  constructor(
-    @InjectQueue('blast') private readonly queue: Queue,
-    private service: OptimizeService
-  ) {}
+  constructor(@InjectQueue('blast') private readonly queue: Queue) {}
 
   async blastNew(name: string, data: BlastJob, uuid: string) {
     const job = await this.queue.add('blast-job', {

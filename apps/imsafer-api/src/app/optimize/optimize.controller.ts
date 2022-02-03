@@ -14,14 +14,14 @@ import {
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
 import { Queue } from 'bull';
+import { createReadStream } from 'fs';
 
 import { OptimizeProducer } from './optimize.producer';
 import { StrengthenProducer } from './strengthen.producer';
 import { BlastProducer } from './blast.producer';
+import { FireProducer } from './fire.producer';
 import { OptimizeService } from './optimize.service';
 import { nanoid } from 'nanoid';
-import { BlastJob } from '@gnosys/interfaces';
-import { createReadStream } from 'fs';
 
 @Controller('optimize')
 export class OptimizeController {
@@ -31,6 +31,7 @@ export class OptimizeController {
     private readonly optimizeProducer: OptimizeProducer,
     private readonly strengthenProducer: StrengthenProducer,
     private readonly blastProducer: BlastProducer,
+    private readonly fireProducer: FireProducer,
     private readonly optimizeService: OptimizeService
   ) {}
 
@@ -107,9 +108,16 @@ export class OptimizeController {
     });
   }
 
+  @Post('fire')
+  @UseInterceptors(AnyFilesInterceptor())
+  async processFireCase(@Body() body: { name: string; atc: string }) {
+    const uuid = nanoid();
+    return this.fireProducer.fireNew(body.name, body.atc, uuid);
+  }
+
   @Post('blast')
   @UseInterceptors(AnyFilesInterceptor())
-  async processBlastCase(@Body() body) {
+  async processBlastCase(@Body() body: { name: string; data: string }) {
     const uuid = nanoid();
     return this.blastProducer.blastNew(body.name, JSON.parse(body.data), uuid);
   }
