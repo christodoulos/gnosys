@@ -28,6 +28,7 @@ export class OptimizeController {
   constructor(
     @InjectQueue('strengthen') private readonly queue: Queue,
     @InjectQueue('blast') private readonly blastQueue: Queue,
+    @InjectQueue('fire') private readonly fireQueue: Queue,
     private readonly optimizeProducer: OptimizeProducer,
     private readonly strengthenProducer: StrengthenProducer,
     private readonly blastProducer: BlastProducer,
@@ -113,6 +114,34 @@ export class OptimizeController {
   async processFireCase(@Body() body: { name: string; atc: string }) {
     const uuid = nanoid();
     return this.fireProducer.fireNew(body.name, body.atc, uuid);
+  }
+
+  @Get('fire')
+  async getAllFireJobs() {
+    return this.fireQueue.getJobs([
+      'active',
+      'completed',
+      'delayed',
+      'failed',
+      'paused',
+      'waiting',
+    ]);
+  }
+
+  @Get('fire/:id')
+  async fireResults(
+    @Res({ passthrough: true }) res: Response,
+    @Param('id') id: string
+  ): Promise<StreamableFile> {
+    const job = await this.fireQueue.getJob(id);
+    const name = job.data['name'];
+    res.set({
+      'Content-Type': 'text/plain',
+      'Content-Disposition': `attachment; filename="${name}.txt`,
+    });
+    const result = Buffer.from(job.returnvalue);
+    return new StreamableFile(result);
+    // return new StreamableFile(job.returnvalue);
   }
 
   @Post('blast')

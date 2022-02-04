@@ -33,9 +33,13 @@ async function prepareFireCase(job: Job<unknown>): Promise<string> {
 }
 
 async function fireSpawn(folder: string, job: Job<unknown>) {
+  const regex = /Iteration (.*) (.*) condition (.*) (.*)/gm;
   const fireSpawn = spawn(process.env.FIRE, ['ex'], { cwd: folder });
   for await (const data of fireSpawn.stdout) {
-    console.log(data.toString());
+    const match = regex.exec(data.toString());
+    if (match) {
+      console.log(match[1], match[2], match[3], match[4]);
+    }
   }
   for await (const data of fireSpawn.stderr) {
     job.failedReason = data.toString();

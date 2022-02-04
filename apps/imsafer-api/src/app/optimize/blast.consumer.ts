@@ -4,8 +4,6 @@ import { spawn } from 'child_process';
 import fs = require('fs');
 import AdmZip = require('adm-zip');
 
-import { OptimizeService } from './optimize.service';
-
 const fsPromises = fs.promises;
 
 async function mkDir(name: string) {

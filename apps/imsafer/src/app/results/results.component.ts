@@ -2,13 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ImsaferUIRepository } from '@gnosys/state';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   templateUrl: './results.component.html',
   styleUrls: ['./results.component.css'],
 })
 export class ResultsComponent implements OnInit {
   results!: Array<any>;
+  fireResults!: Array<any>;
   isloading$ = this.repo.isloading$;
   constructor(
     private http: HttpClient,
@@ -21,8 +24,17 @@ export class ResultsComponent implements OnInit {
       .get<Array<{ _id: string; jobID: string; name: string }>>(
         '/api/optimize/strengthen'
       )
+      .pipe(untilDestroyed(this))
       .subscribe((data) => {
         this.results = data;
+      });
+
+    this.http
+      .get<any>('/api/optimize/fire')
+      .pipe(untilDestroyed(this))
+      .subscribe((data) => {
+        this.fireResults = data;
+        console.log(data);
       });
   }
 
@@ -32,6 +44,7 @@ export class ResultsComponent implements OnInit {
       .get<Array<{ _id: string; jobID: string; name: string }>>(
         '/api/optimize/strengthen'
       )
+      .pipe(untilDestroyed(this))
       .subscribe((data) => {
         this.results = data;
         this.repo.setLoading(false);
@@ -43,6 +56,7 @@ export class ResultsComponent implements OnInit {
 
     this.http
       .get(baseUrl, { responseType: 'blob' as 'json' })
+      .pipe(untilDestroyed(this))
       .subscribe((response: any) => {
         const dataType = response.type;
         const binaryData = [];
@@ -52,6 +66,28 @@ export class ResultsComponent implements OnInit {
           new Blob(binaryData, { type: dataType })
         );
         if (filename) downloadLink.setAttribute('download', `${filename}.zip`);
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+      });
+  }
+
+  downloadFire(jobID: string, filename: string): void {
+    console.log(jobID, filename);
+    const baseUrl = `/api/optimize/fire/${jobID}`;
+
+    this.http
+      .get(baseUrl, { responseType: 'blob' })
+      .pipe(untilDestroyed(this))
+      .subscribe((response: any) => {
+        const dataType = response.type;
+        console.log(response, dataType);
+        const binaryData = [];
+        binaryData.push(response);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = window.URL.createObjectURL(
+          new Blob(binaryData, { type: dataType })
+        );
+        if (filename) downloadLink.setAttribute('download', `${filename}.txt`);
         document.body.appendChild(downloadLink);
         downloadLink.click();
       });
