@@ -7,6 +7,13 @@
   ></svg-icon>
 </div>
 
+<ag-grid-angular
+  [columnDefs]="columnDefs"
+  [rowData]="results"
+  [domLayout]="'autoHeight'"
+  class="ag-theme-alpine p-2"
+></ag-grid-angular>
+
 <ul class="p-2 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
   <li *ngFor="let case of results" class="col-span-1 flex flex-col bg-white">
     <div class="p-2 flex flex-col text-sm">

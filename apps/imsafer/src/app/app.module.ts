@@ -4,6 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { EffectsNgModule } from '@ngneat/effects-ng';
+import { AgGridModule } from 'ag-grid-angular';
+
 import { ImsaferUIEffects } from '@gnosys/state';
 
 import { UiModule } from '@gnosys/ui';
@@ -41,6 +43,7 @@ import { FireComponent } from './fire/fire.component';
     SvgIconsModule.forRoot({
       sizes: { md: '20px' },
     }),
+    AgGridModule.withComponents([]),
     UiModule,
   ],
   providers: [],

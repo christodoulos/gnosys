@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ImsaferUIRepository } from '@gnosys/state';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { ColDef } from 'ag-grid-community';
 
 @UntilDestroy()
 @Component({
@@ -13,6 +14,13 @@ export class ResultsComponent implements OnInit {
   results!: Array<any>;
   fireResults!: Array<any>;
   isloading$ = this.repo.isloading$;
+  columnDefs: ColDef[] = [
+    { field: 'name', sortable: true, filter: true },
+    { field: 'jobID' },
+    { field: 'timestamp' },
+    { field: 'progress' },
+    { field: 'finishedOn' },
+  ];
   constructor(
     private http: HttpClient,
     private router: Router,
