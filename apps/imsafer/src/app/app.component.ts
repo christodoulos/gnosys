@@ -20,7 +20,8 @@ export class AppComponent {
     private ui: ImsaferUIRepository,
     private effects: ImsaferUIEffects
   ) {}
-  onClick() {
-    console.log('click');
+
+  notYet() {
+    alert('Not yet supported');
   }
 }

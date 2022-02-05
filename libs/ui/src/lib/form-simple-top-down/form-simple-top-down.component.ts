@@ -18,6 +18,7 @@ import * as _ from 'lodash';
 })
 export class FormSimpleTopDownComponent implements OnInit {
   @Input() formGroup!: FormGroup<ControlsOf<Generic>>;
+  @Input() tooltips: Array<string> | undefined;
   controls: Array<Controls> = [];
 
   constructor(private service: FormErrorService) {}

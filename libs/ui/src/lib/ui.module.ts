@@ -6,7 +6,11 @@ import {
   ReactiveFormsModule,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
-
+import {
+  TippyModule,
+  tooltipVariation,
+  popperVariation,
+} from '@ngneat/helipopper';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { userIcons } from '../lib/svg/user';
 import { imsaferIcons } from '../lib/svg/imsafer';
@@ -28,6 +32,13 @@ import { FormSimpleLeftToRightComponent } from './form-simple-left-to-right/form
     FormsModule,
     ReactiveFormsModule,
     SvgIconsModule.forChild([...userIcons, ...imsaferIcons]),
+    TippyModule.forRoot({
+      defaultVariation: 'tooltip',
+      variations: {
+        tooltip: tooltipVariation,
+        popper: popperVariation,
+      },
+    }),
   ],
   declarations: [
     CodemirrorComponent,

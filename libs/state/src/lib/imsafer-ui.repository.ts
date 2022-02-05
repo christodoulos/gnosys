@@ -22,13 +22,34 @@ export const SidebarOBJ: NavList = [
   {
     icon: 'solid-server',
     text: 'Robust',
-    active: true,
+    active: false,
+    routerLink: 'robust',
   },
-  { icon: 'solid-fire', text: 'Fire Safety', active: false },
-  { icon: 'solid-logout', text: 'Evacuation', active: false },
-  { icon: 'solid-question-mark-circle', text: 'Risk', active: false },
+  {
+    icon: 'solid-fire',
+    text: 'Fire Safety',
+    active: false,
+    routerLink: 'fire',
+  },
+  {
+    icon: 'solid-logout',
+    text: 'Evacuation',
+    active: false,
+    routerLink: 'evacuation',
+  },
+  {
+    icon: 'solid-question-mark-circle',
+    text: 'Risk',
+    active: false,
+    routerLink: 'risk',
+  },
   { text: 'separator' },
-  { icon: 'calculator', text: 'Results', active: false },
+  {
+    icon: 'calculator',
+    text: 'Results',
+    active: false,
+    routerLink: 'results',
+  },
 ];
 
 export interface Topbar {
@@ -88,7 +109,8 @@ export class ImsaferUIRepository {
   constructor(private router: Router) {}
 
   updateSidebar(sidebar: NavList) {
-    const sidebarActive = sidebar.find((element) => element.active)?.text || '';
+    const sidebarActive =
+      sidebar.find((element) => element.active)?.routerLink || '';
     const topbar = topbarOBJ[sidebarActive];
     store.update((state) => ({
       ...state,

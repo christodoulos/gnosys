@@ -5,6 +5,11 @@ import { RouterModule } from '@angular/router';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { EffectsNgModule } from '@ngneat/effects-ng';
 import { AgGridModule } from 'ag-grid-angular';
+import {
+  TippyModule,
+  tooltipVariation,
+  popperVariation,
+} from '@ngneat/helipopper';
 
 import { ImsaferUIEffects } from '@gnosys/state';
 
@@ -17,6 +22,9 @@ import { StrengthenUploadComponent } from './strengthen/strengthen-upload/streng
 import { ResultsComponent } from './results/results.component';
 import { BlastComponent } from './blast/blast.component';
 import { FireComponent } from './fire/fire.component';
+import { RobustComponent } from './robust/robust.component';
+import { EvacuationComponent } from './evacuation/evacuation.component';
+import { RiskComponent } from './risk/risk.component';
 
 @NgModule({
   declarations: [
@@ -27,16 +35,22 @@ import { FireComponent } from './fire/fire.component';
     StrengthenUploadComponent,
     BlastComponent,
     FireComponent,
+    RobustComponent,
+    EvacuationComponent,
+    RiskComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: 'Strengthen', component: StrengthenComponent },
-      { path: 'Blast', component: BlastComponent },
-      { path: 'Results', component: ResultsComponent },
-      { path: 'Fire 0', component: FireComponent },
+      { path: 'robust', component: RobustComponent },
+      { path: 'strengthen', component: StrengthenComponent },
+      { path: 'blast', component: BlastComponent },
+      { path: 'results', component: ResultsComponent },
+      { path: 'fire', component: FireComponent },
+      { path: 'risk', component: RiskComponent },
+      { path: 'evacuation', component: EvacuationComponent },
       { path: '**', component: WelcomeComponent },
     ]),
     EffectsNgModule.forRoot([ImsaferUIEffects]),
@@ -44,6 +58,13 @@ import { FireComponent } from './fire/fire.component';
       sizes: { md: '20px' },
     }),
     AgGridModule.withComponents([]),
+    TippyModule.forRoot({
+      defaultVariation: 'tooltip',
+      variations: {
+        tooltip: tooltipVariation,
+        popper: popperVariation,
+      },
+    }),
     UiModule,
   ],
   providers: [],

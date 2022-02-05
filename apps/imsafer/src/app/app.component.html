@@ -1,24 +1,48 @@
 <!-- https://play.tailwindcss.com/9DXR6UQ4d1 -->
-<div class="container mx-auto pt-2 sm:px-6 lg:px-8">
+<div class="container p-2 min-w-max max-w-screen-xl">
   <div class="flex items-center justify-between space-x-2 p-2 bg-gray-300">
-    <!-- Top Bar -->
-    <logo0
-      [image]="'logo.png'"
-      [text]="
-        'Advanced Information Modelling for SAFER structures against manmade hazards'
-      "
-    ></logo0>
-    <top-login0 (click)="onClick()"></top-login0>
+    <div class="flex flex-row space-x-2">
+      <img src="/assets/img/logo.png" routerLink="/" class="cursor-pointer" />
+      <span
+        class="invisible sm:visible sm:w-96 sm:text-base sm:font-bold font-semibold text-xs w-64"
+      >
+        Advanced Information Modelling for SAFER structures against manmade
+        hazards
+      </span>
+    </div>
+    <div
+      class="border-2 p-2 text-sm cursor-not-allowed bg-indigo-600 text-white font-semibold"
+      (click)="notYet()"
+    >
+      Login
+    </div>
   </div>
-  <div class="mt-2 md:flex">
-    <div class="w-full mb-2 md:mb-0 md:w-1/4 mr-2">
+  <div class="mt-2 sm:flex">
+    <div class="sm:hidden bg-gray-300 p-2 mb-2">
+      <ul class="flex justify-between text-sm">
+        <li routerLink="/robust" class="cursor-pointer">Robust</li>
+        <li routerLink="/fire" class="cursor-pointer">Fire Safety</li>
+        <li routerLink="/evacuation" class="cursor-pointer">Evacuation</li>
+        <li routerLink="/risk" class="cursor-pointer">Risk</li>
+        <li routerLink="/results" class="cursor-pointer">Results</li>
+      </ul>
+    </div>
+    <div class="hidden border-2 p-2 mr-2 sm:flex sm:flex-col whitespace-nowrap">
       <sidebar0
         [items]="(sidebar$ | async) || []"
         (selection)="dispatch(sidebarNavigationAction({ navlist: $event }))"
       ></sidebar0>
+      <!-- <ul class="space-y-3">
+        <li routerLink="/robust" class="cursor-pointer">Robust</li>
+        <li routerLink="/fire" class="cursor-pointer">Fire Safety</li>
+        <li routerLink="/evacuation" class="cursor-pointer">Evacuation</li>
+        <li routerLink="/risk" class="cursor-pointer">Risk</li>
+        <hr />
+        <li routerLink="/results" class="cursor-pointer">Results</li>
+      </ul> -->
     </div>
-    <div class="w-full md:w-3/4 space-y-4">
-      <div class="flex flex-row items-center space-x-2">
+    <div class="border-2 w-full flex flex-col pl-2 pt-2">
+      <!-- <div class="flex flex-row items-center space-x-2">
         <div class="bg-white text-xl font-semibold">
           {{ (sidebarActive$ | async)?.text }}
         </div>
@@ -26,12 +50,11 @@
           [items]="(topbar$ | async) || []"
           (selection)="dispatch(topbarNavigationAction({ navlist: $event }))"
         ></topbar0>
-      </div>
+      </div> -->
 
       <!-- Content -->
-      <div class="flex justify-start bg-gray-200">
-        <router-outlet></router-outlet>
-      </div>
+
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

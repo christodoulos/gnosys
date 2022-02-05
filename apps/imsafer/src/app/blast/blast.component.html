@@ -1,6 +1,19 @@
-<div *ngIf="!jobID" class="p-2 flex flex-col text-sm space-y-2">
-  <p class="block text-sm font-medium text-gray-700">Blast case parameters:</p>
-  <form-simple-top-down [formGroup]="form"></form-simple-top-down>
+<div *ngIf="!jobID" class="flex flex-col space-y-2">
+  <div class="text-xl font-semibold">Blast</div>
+  <div>Blast is an IMSAFER module that ...</div>
+  <div class="flex flex-row space-x-2 items-center text-xs">
+    <span>read more</span>
+    <a href="/assets/doc/blast.pdf"
+      ><svg-icon tippy="pdf manual" [key]="'link'"></svg-icon
+    ></a>
+  </div>
+  <div class="block text-sm font-medium text-gray-700 w-full">
+    Blast case parameters:
+  </div>
+  <form-simple-top-down
+    [formGroup]="form"
+    [tooltips]="tooltips"
+  ></form-simple-top-down>
 
   <icon-button
     (click)="onSubmit()"

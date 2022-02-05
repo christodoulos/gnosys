@@ -40,6 +40,14 @@ export class BlastComponent {
       Validators.pattern(this.numberRegEx),
     ]),
   });
+  tooltips = [
+    'A text identifier for the Blast Case',
+    'The total weight of explosives in Kgr',
+    'The distance from the building in meters',
+    "The building's width in meters",
+    "The building's length in meters",
+    "The building's height in meters",
+  ];
 
   constructor(private service: ImsaferService) {}
 

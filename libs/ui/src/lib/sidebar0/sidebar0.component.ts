@@ -1,10 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  Input,
-  Output,
-  EventEmitter,
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ListItem, NavList } from '@gnosys/interfaces';
 
 @Component({
@@ -12,7 +6,6 @@ import { ListItem, NavList } from '@gnosys/interfaces';
   selector: 'sidebar0',
   templateUrl: './sidebar0.component.html',
   styleUrls: ['./sidebar0.component.css'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Sidebar0Component {
   @Input() items: NavList = [];

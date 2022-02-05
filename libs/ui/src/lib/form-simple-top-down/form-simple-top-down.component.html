@@ -1,11 +1,12 @@
-<form [formGroup]="formGroup">
-  <div class="space-y-3 text-sm">
+<div class="flex">
+  <form [formGroup]="formGroup" class="space-y-3 text-sm">
     <div
-      *ngFor="let control of controls"
+      *ngFor="let control of controls; let i = index"
       class="flex flex-row justify-end items-center"
     >
       <div class="flex flex-row justify-end items-center">
         <label
+          tippy="{{ tooltips ? tooltips[i] : '' }}"
           class="{{
             control.value.dirty || control.value.touched
               ? control.value.valid
@@ -42,5 +43,5 @@
         </div>
       </div>
     </div>
-  </div>
-</form>
+  </form>
+</div>
