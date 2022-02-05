@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ImsaferUIRepository } from '@gnosys/state';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ColDef } from 'ag-grid-community';
+import { map } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -16,10 +17,12 @@ export class ResultsComponent implements OnInit {
   isloading$ = this.repo.isloading$;
   columnDefs: ColDef[] = [
     { field: 'name', sortable: true, filter: true },
-    { field: 'jobID' },
+    { field: 'jobID', editable: true },
+    { field: 'jobUUID' },
     { field: 'timestamp' },
     { field: 'progress' },
     { field: 'finishedOn' },
+    { field: 'processedOn' },
   ];
   constructor(
     private http: HttpClient,
@@ -29,11 +32,10 @@ export class ResultsComponent implements OnInit {
 
   ngOnInit(): void {
     this.http
-      .get<Array<{ _id: string; jobID: string; name: string }>>(
-        '/api/optimize/strengthen'
-      )
+      .get<any>('/api/optimize/strengthen')
       .pipe(untilDestroyed(this))
       .subscribe((data) => {
+        console.log(data);
         this.results = data;
       });
 
