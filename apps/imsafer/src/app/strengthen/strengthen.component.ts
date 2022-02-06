@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ImsaferService } from '../app.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { ColDef } from 'ag-grid-community';
 
 @UntilDestroy()
 @Component({
@@ -16,6 +17,14 @@ export class StrengthenComponent {
   jobFailed = false;
   failedReason = '';
   caseName = '';
+
+  pillarColDefs: ColDef[] = [{ field: 'bx' }, { field: 'by', flex: 1 }];
+
+  pillars = [
+    { bx: 0.4, by: 0.4 },
+    { bx: 0.4, by: 0.4 },
+  ];
+
   constructor(private service: ImsaferService, private router: Router) {}
 
   submitCase(data: FormData) {

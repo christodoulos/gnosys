@@ -14,12 +14,13 @@ import { FormErrorService } from '../form-error.service';
   selector: 'form-simple-left-to-right',
   templateUrl: './form-simple-left-to-right.component.html',
   styleUrls: ['./form-simple-left-to-right.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormSimpleLeftToRightComponent implements OnInit {
   @Input() formGroup!: FormGroup<ControlsOf<Generic>>;
   controls: Array<Controls> = [];
   ncontrols = 0;
+
   constructor(private service: FormErrorService) {}
 
   ngOnInit(): void {
@@ -44,5 +45,15 @@ export class FormSimpleLeftToRightComponent implements OnInit {
 
   statCase(s: string): string {
     return _.startCase(s);
+  }
+
+  controlErrors(): Array<{ field: string; error: string }> {
+    const errors: Array<{ field: string; error: string }> = [];
+    for (const [k, v] of Object.entries(this.formGroup.controls)) {
+      if (v.invalid && v.touched) {
+        errors.push({ field: k, error: this.service.getError(v) });
+      }
+    }
+    return errors;
   }
 }

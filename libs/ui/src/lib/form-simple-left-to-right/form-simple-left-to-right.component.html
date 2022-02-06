@@ -1,14 +1,17 @@
-<form
-  [formGroup]="formGroup"
-  class="max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl"
->
-  <div class="flex space-x-2 overflow-x-auto">
-    <div
-      *ngFor="let control of controls"
-      class="flex space-x-2 whitespace-nowrap"
-    >
-      <label class="font-semibold">{{ statCase(control.name) }}:</label>
-      <input class="w-[40px]" formControlName="{{ control.name }}" />
-    </div>
+<form [formGroup]="formGroup" class="flex space-x-2">
+  <div *ngFor="let control of controls" class="flex space-x-2 items-center">
+    <label class="font-semibold">{{ statCase(control.name) }}:</label>
+    <input
+      class="{{ ncontrols > 5 ? 'w-[40px]' : '' }} p-1 border "
+      formControlName="{{ control.name }}"
+    />
   </div>
 </form>
+<div *ngIf="controlErrors().length" class="pt-2">
+  <ul class="text-red-500">
+    <li *ngFor="let error of controlErrors()">
+      <span class="font-semibold">{{ statCase(error.field) }}</span
+      >: {{ error.error }}
+    </li>
+  </ul>
+</div>

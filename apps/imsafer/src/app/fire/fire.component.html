@@ -9,26 +9,31 @@
   </div>
   <div class="text-sm flex flex-col space-y-2">
     <form-simple-left-to-right [formGroup]="form0"></form-simple-left-to-right>
-    <p class="font-semibold">Formulation:</p>
-    <form [formGroup]="form1" class="text-sm">
-      <select
-        class="text-xs h-10"
-        (change)="changeFormulation($event)"
-        formControlName="formulation"
-      >
-        <option value="" disabled>Choose a formulation</option>
-        <option
-          *ngFor="let formulation of formulations; index as i"
-          [ngValue]="formvals[i]"
+    <div class="flex space-x-2 items-center">
+      <label class="font-semibold">Formulation:</label>
+      <form [formGroup]="form1" class="text-sm">
+        <select
+          class="text-xs h-10 border-red-500"
+          (change)="changeFormulation($event)"
+          formControlName="formulation"
         >
-          {{ formulation }}
-        </option>
-      </select>
-    </form>
-    <p class="font-semibold">All floors of the building in m2</p>
+          <option value="" disabled>Choose a formulation</option>
+          <option
+            *ngFor="let formulation of formulations; index as i"
+            [ngValue]="formvals[i]"
+          >
+            {{ formulation }}
+          </option>
+        </select>
+      </form>
+    </div>
+    <p class="font-semibold">
+      Total area of building floors in m<span>&#178;</span>
+    </p>
     <form-simple-left-to-right [formGroup]="form2"></form-simple-left-to-right>
     <p class="font-semibold">
-      Cost per m2 of each 1 of the 16 measures, in currency/m2:
+      Cost per m<span>&#178;</span> of each 1 of the 16 measures, in
+      currency/m<span>&#178;</span>:
     </p>
     <form-simple-left-to-right [formGroup]="form3"></form-simple-left-to-right>
     <form-simple-left-to-right [formGroup]="form4"></form-simple-left-to-right>
