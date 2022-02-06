@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { Validators } from '@angular/forms';
 import { ImsaferService } from '../app.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Router } from '@angular/router';
 
 @UntilDestroy()
 @Component({
@@ -111,7 +112,7 @@ export class FireComponent {
     ]),
   });
 
-  constructor(private service: ImsaferService) {}
+  constructor(private service: ImsaferService, private router: Router) {}
 
   changeFormulation(e: any) {
     console.log(e);
@@ -157,6 +158,7 @@ export class FireComponent {
         .pipe(untilDestroyed(this))
         .subscribe((data) => {
           console.log(data);
+          this.router.navigate(['results']);
         });
     }
   }
