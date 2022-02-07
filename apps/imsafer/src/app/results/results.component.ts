@@ -28,7 +28,7 @@ interface FireJob {
 })
 export class ResultsComponent implements OnInit {
   // blastJobs: Array<any>;
-  // strengthenJobs: Array<any>;
+  strengthenJobs$ = this.getStrengthenJobs();
   fireJobs$ = this.getFireJobs();
   results!: Array<any>;
   fireResults!: Array<any>;
@@ -55,6 +55,10 @@ export class ResultsComponent implements OnInit {
 
   getFireJobs(): Observable<Array<FireJob>> {
     return this.http.get<Array<FireJob>>('/api/optimize/fire');
+  }
+
+  getStrengthenJobs(): Observable<Array<FireJob>> {
+    return this.http.get<Array<FireJob>>('/api/optimize/strengthen');
   }
 
   ngOnInit(): void {

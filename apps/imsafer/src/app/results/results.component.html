@@ -1,42 +1,86 @@
-<ng-container *ngIf="(fireJobs$ | async)?.length">
-  <div class="flex flex-col" *ngIf="fireJobs$ | async as jobs">
-    <div class="text-xl">
-      Fire Results
-      <svg-icon
-        (click)="refresh()"
-        class="cursor-pointer {{ (isloading$ | async) ? 'animate-spin' : '' }}"
-        [key]="'refresh'"
-      ></svg-icon>
+<div class="flex flex-col space-y-4">
+  <ng-container *ngIf="(strengthenJobs$ | async)?.length">
+    <div class="flex flex-col" *ngIf="strengthenJobs$ | async as jobs">
+      <div class="flex text-lg space-x-2 items-center">
+        <span>Strengthen Results</span>
+        <svg-icon
+          (click)="refresh()"
+          class="cursor-pointer {{
+            (isloading$ | async) ? 'animate-spin' : ''
+          }}"
+          [key]="'refresh'"
+        ></svg-icon>
+      </div>
+      <table class="table-auto text-sm">
+        <thead>
+          <tr>
+            <th class="text-left whitespace-nowrap">Job Name</th>
+            <th class="text-left whitespace-nowrap">Job Progress</th>
+            <th class="text-left whitespace-nowrap">Job Results</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let job of jobs" class="border">
+            <td class="whitespace-nowrap">
+              {{ job.data.name }}
+            </td>
+            <td>{{ job.progress }}</td>
+            <td>
+              <button
+                *ngIf="job.finishedOn"
+                class="bg-indigo-500 p-1 mt-1 cursor-pointer text-white font-semibold flex space-x-2 items-center"
+                (click)="downloadFile(job.id, job.data.name)"
+              >
+                <svg-icon [key]="'download'"></svg-icon> <span>Results</span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <table class="table-auto text-sm">
-      <thead>
-        <tr>
-          <th class="text-left whitespace-nowrap">Job Name</th>
-          <th class="text-left whitespace-nowrap">Job Progress</th>
-          <th class="text-left whitespace-nowrap">Job Results</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let job of jobs" class="border">
-          <td class="whitespace-nowrap">
-            {{ job.data.name }}
-          </td>
-          <td>{{ job.progress }}</td>
-          <td>
-            <button
-              *ngIf="job.finishedOn"
-              class="bg-indigo-500 p-1 mt-1 cursor-pointer text-white font-semibold flex space-x-2 items-center"
-              (click)="downloadFire(job.id, job.data.name)"
-            >
-              <svg-icon [key]="'download'"></svg-icon> <span>Results</span>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</ng-container>
+  </ng-container>
 
+  <ng-container *ngIf="(fireJobs$ | async)?.length">
+    <div class="flex flex-col" *ngIf="fireJobs$ | async as jobs">
+      <div class="flex text-lg space-x-2 items-center">
+        <span>Fire Results</span>
+        <svg-icon
+          (click)="refresh()"
+          class="cursor-pointer {{
+            (isloading$ | async) ? 'animate-spin' : ''
+          }}"
+          [key]="'refresh'"
+        ></svg-icon>
+      </div>
+      <table class="table-auto text-sm">
+        <thead>
+          <tr>
+            <th class="text-left whitespace-nowrap">Job Name</th>
+            <th class="text-left whitespace-nowrap">Job Progress</th>
+            <th class="text-left whitespace-nowrap">Job Results</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let job of jobs" class="border">
+            <td class="whitespace-nowrap">
+              {{ job.data.name }}
+            </td>
+            <td>{{ job.progress }}</td>
+            <td>
+              <button
+                *ngIf="job.finishedOn"
+                class="bg-indigo-500 p-1 mt-1 cursor-pointer text-white font-semibold flex space-x-2 items-center"
+                (click)="downloadFire(job.id, job.data.name)"
+              >
+                <svg-icon [key]="'download'"></svg-icon> <span>Results</span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+</div>
 <!-- <div class="flex items-center text-lg p-2 mb-2">
   <span class="mr-2">Strengthen Jobs</span>
   <svg-icon

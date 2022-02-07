@@ -53,9 +53,21 @@ export class OptimizeController {
     return this.strengthenProducer.strengthenNew(file, body.name, uuid);
   }
 
+  // @Get('strengthen')
+  // async getAllStrengthenResults() {
+  //   return this.optimizeService.findAllStrengthen();
+  // }
+
   @Get('strengthen')
-  async getAllStrengthenResults() {
-    return this.optimizeService.findAllStrengthen();
+  async getAllStrengthenJobs() {
+    return this.queue.getJobs([
+      'active',
+      'completed',
+      'delayed',
+      // 'failed',
+      'paused',
+      'waiting',
+    ]);
   }
 
   @Get('strengthen/:id')
