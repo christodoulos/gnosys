@@ -18,6 +18,7 @@ import { FormErrorService } from '../form-error.service';
 })
 export class FormSimpleLeftToRightComponent implements OnInit {
   @Input() formGroup!: FormGroup<ControlsOf<Generic>>;
+  @Input() tooltips: Array<string> | undefined;
   controls: Array<Controls> = [];
   ncontrols = 0;
 

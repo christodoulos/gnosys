@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { EffectsNgModule } from '@ngneat/effects-ng';
-import { AgGridModule } from 'ag-grid-angular';
+// import { AgGridModule } from 'ag-grid-angular';
 import {
   TippyModule,
   tooltipVariation,
@@ -57,7 +57,7 @@ import { RiskComponent } from './risk/risk.component';
     SvgIconsModule.forRoot({
       sizes: { md: '20px' },
     }),
-    AgGridModule.withComponents([]),
+    // AgGridModule.withComponents([]),
     TippyModule.forRoot({
       defaultVariation: 'tooltip',
       variations: {

@@ -8,12 +8,23 @@
     ></a>
   </div>
 
-  <ag-grid-angular
-    [columnDefs]="pillarColDefs"
-    [rowData]="pillars"
-    [domLayout]="'autoHeight'"
-    class="ag-theme-alpine"
-  ></ag-grid-angular>
+  <div class="text-sm flex flex-col space-y-2">
+    <p class="font-semibold">Center of mass</p>
+
+    <form-simple-left-to-right [formGroup]="form0"></form-simple-left-to-right>
+    <form-simple-left-to-right [formGroup]="form1"></form-simple-left-to-right>
+    <form-simple-left-to-right [formGroup]="form2"></form-simple-left-to-right>
+
+    <ng-container *ngFor="let pillar of formpillar; index as i">
+      <div class="flex space-x-2 items-center">
+        <span class="font-medium">Pillar {{ i + 1 }} Data:</span>
+        <form-simple-left-to-right
+          [formGroup]="pillar"
+          [tooltips]="tooltips"
+        ></form-simple-left-to-right>
+      </div>
+    </ng-container>
+  </div>
 
   <strengthen-upload
     *ngIf="!jobID"

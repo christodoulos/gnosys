@@ -1,6 +1,17 @@
 <form [formGroup]="formGroup" class="flex space-x-2">
-  <div *ngFor="let control of controls" class="flex space-x-2 items-center">
-    <label class="font-semibold">{{ statCase(control.name) }}:</label>
+  <div
+    *ngFor="let control of controls; index as i"
+    class="flex space-x-2 items-center"
+  >
+    <label
+      *ngIf="tooltips"
+      tippy="{{ tooltips ? tooltips[i] : '' }}"
+      class="font-semibold"
+      >{{ statCase(control.name) }}:</label
+    >
+    <label *ngIf="!tooltips" class="font-semibold"
+      >{{ statCase(control.name) }}:</label
+    >
     <input
       class="{{ ncontrols > 5 ? 'w-[40px]' : '' }} p-1 border "
       formControlName="{{ control.name }}"
