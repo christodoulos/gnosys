@@ -4,7 +4,22 @@ import { Router } from '@angular/router';
 import { ImsaferUIRepository } from '@gnosys/state';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ColDef } from 'ag-grid-community';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { ImsaferService } from '../app.service';
+
+interface FireJobData {
+  name: string;
+  fireData: string;
+  uuid: string;
+}
+
+interface FireJob {
+  data: FireJobData;
+  attemptsMade: number;
+  id: string;
+  progress: number;
+  finishedOn: number;
+}
 
 @UntilDestroy()
 @Component({
@@ -12,6 +27,9 @@ import { map } from 'rxjs';
   styleUrls: ['./results.component.css'],
 })
 export class ResultsComponent implements OnInit {
+  // blastJobs: Array<any>;
+  // strengthenJobs: Array<any>;
+  fireJobs$ = this.getFireJobs();
   results!: Array<any>;
   fireResults!: Array<any>;
   isloading$ = this.repo.isloading$;
@@ -27,15 +45,24 @@ export class ResultsComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private repo: ImsaferUIRepository
-  ) {}
+    private repo: ImsaferUIRepository,
+    private service: ImsaferService
+  ) {
+    this.getFireJobs().subscribe((data) => {
+      console.log(data);
+    });
+  }
+
+  getFireJobs(): Observable<Array<FireJob>> {
+    return this.http.get<Array<FireJob>>('/api/optimize/fire');
+  }
 
   ngOnInit(): void {
     this.http
       .get<any>('/api/optimize/strengthen')
       .pipe(untilDestroyed(this))
       .subscribe((data) => {
-        console.log(data);
+        // console.log(data);
         this.results = data;
       });
 
@@ -44,21 +71,22 @@ export class ResultsComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((data) => {
         this.fireResults = data;
-        console.log(data);
+        // console.log(data);
       });
   }
 
   refresh() {
-    this.repo.setLoading(true);
-    this.http
-      .get<Array<{ _id: string; jobID: string; name: string }>>(
-        '/api/optimize/strengthen'
-      )
-      .pipe(untilDestroyed(this))
-      .subscribe((data) => {
-        this.results = data;
-        this.repo.setLoading(false);
-      });
+    this.service.reloadComponent('/results');
+    // this.repo.setLoading(true);
+    // this.http
+    //   .get<Array<{ _id: string; jobID: string; name: string }>>(
+    //     '/api/optimize/strengthen'
+    //   )
+    //   .pipe(untilDestroyed(this))
+    //   .subscribe((data) => {
+    //     this.results = data;
+    //     this.repo.setLoading(false);
+    //   });
   }
 
   downloadFile(jobID: string, filename: string): void {

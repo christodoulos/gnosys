@@ -39,8 +39,11 @@ async function fireSpawn(folder: string, job: Job<unknown>) {
     const match = regex.exec(data.toString());
     if (match) {
       console.log(match[1], match[2], match[3], match[4]);
-      const percomplete = (parseInt(match[1]) / parseInt(match[2])) * 100;
-      job.progress(percomplete);
+      const isActive = await job.isActive();
+      if (isActive) {
+        const percomplete = (parseInt(match[1]) / parseInt(match[2])) * 100;
+        job.progress(percomplete);
+      }
     }
   }
   for await (const data of fireSpawn.stderr) {
@@ -48,7 +51,7 @@ async function fireSpawn(folder: string, job: Job<unknown>) {
     job.moveToFailed({ message: job.failedReason }, true);
   }
   fireSpawn.on('exit', (code) => {
-    job.progress(100);
+    if (code === 0) job.progress(100);
     console.log(`Child process exited with code: ${code.toString()}`);
   });
 }
