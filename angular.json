@@ -271,8 +271,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "1500kb",
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -725,8 +725,7 @@
           "builder": "@nrwl/angular:ng-packagr-lite",
           "outputs": ["dist/libs/ui"],
           "options": {
-            "project": "libs/ui/ng-package.json",
-            "tailwindConfig": "libs/ui/tailwind.config.js"
+            "project": "libs/ui/ng-package.json"
           },
           "configurations": {
             "production": {
