@@ -1,4 +1,4 @@
-<mgl-map
+<!-- <mgl-map
   [style]="'mapbox://styles/mapbox/light-v9'"
   [zoom]="[16]"
   [center]="[23.782529708901464, 37.97732290332949]"
@@ -150,4 +150,15 @@
     <mgl-marker #busstop [lngLat]="lngLat(item.value)"></mgl-marker>
     <mgl-popup [marker]="busstop">{{ info(item.value) }}</mgl-popup>
   </ng-container>
-</mgl-map>
+</mgl-map> -->
+<div class="flex flex-col h-screen space-y-2">
+  <div class="bg-indigo-400 p-4">NTUA Digital Twin</div>
+  <div class="bg-gray-300 flex flex-row items-center p-4 space-x-4">
+    <span class="cursor-pointer" (click)="chart1()">Chart 1</span>
+    <span class="cursor-pointer" (click)="chart2()">Chart 2</span>
+    <span class="cursor-pointer" (click)="chart3()">NTUA Map</span>
+  </div>
+  <div class="flex flex-grow">
+    <gnosys-iframe class="w-full" [srcdoc]="srcdoc"></gnosys-iframe>
+  </div>
+</div>

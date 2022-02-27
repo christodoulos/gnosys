@@ -24,6 +24,7 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
 import { Topbar0Component } from './topbar0/topbar0.component';
 import { IconButtonComponent } from './icon-button/icon-button.component';
 import { FormSimpleLeftToRightComponent } from './form-simple-left-to-right/form-simple-left-to-right.component';
+import { IframeComponent, SafePipe } from './iframe/iframe.component';
 
 @NgModule({
   imports: [
@@ -50,6 +51,8 @@ import { FormSimpleLeftToRightComponent } from './form-simple-left-to-right/form
     Topbar0Component,
     IconButtonComponent,
     FormSimpleLeftToRightComponent,
+    IframeComponent,
+    SafePipe,
   ],
   exports: [
     CodemirrorComponent,
@@ -61,6 +64,7 @@ import { FormSimpleLeftToRightComponent } from './form-simple-left-to-right/form
     Topbar0Component,
     IconButtonComponent,
     FormSimpleLeftToRightComponent,
+    IframeComponent,
   ],
   providers: [
     {

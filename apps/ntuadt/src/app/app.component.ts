@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Map, SymbolLayer } from 'mapbox-gl';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
-import { KeyValue } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { MapboxglService } from './mapboxgl.service';
 
 export interface Stop {
   // StopLat: string;
@@ -19,15 +20,19 @@ export class AppComponent implements OnInit {
   title = 'ntuadt';
   labelLayerId: string | undefined;
   items$: Observable<Stop | undefined>;
+  lalakis = false;
+  srcdoc = 'Loading...';
 
-  constructor(afs: AngularFirestore) {
+  constructor(
+    afs: AngularFirestore,
+    private http: HttpClient,
+    private service: MapboxglService
+  ) {
     this.items$ = afs.doc<Stop>('bus242/position').valueChanges();
   }
 
   ngOnInit(): void {
-    this.items$.subscribe((data) => {
-      console.log(data);
-    });
+    this.chart1();
   }
 
   lngLat(_stop: string): [number, number] {
@@ -57,5 +62,23 @@ export class AppComponent implements OnInit {
         }
       }
     }
+  }
+
+  chart1() {
+    this.http
+      .get('assets/map1.html', { responseType: 'text' })
+      .subscribe((data) => (this.srcdoc = data));
+  }
+
+  chart2() {
+    this.http
+      .get('assets/map2.html', { responseType: 'text' })
+      .subscribe((data) => (this.srcdoc = data));
+  }
+
+  chart3() {
+    this.http
+      .get('assets/basentuamap.html', { responseType: 'text' })
+      .subscribe((data) => (this.srcdoc = data));
   }
 }
