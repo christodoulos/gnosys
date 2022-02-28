@@ -593,7 +593,10 @@
               "browserTarget": "ntuadt:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "proxyConfig": "apps/ntuadt/proxy.conf.json"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -615,6 +618,58 @@
           "outputs": ["coverage/apps/ntuadt"],
           "options": {
             "jestConfig": "apps/ntuadt/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "ntuadt-api": {
+      "root": "apps/ntuadt-api",
+      "sourceRoot": "apps/ntuadt-api/src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/ntuadt-api",
+            "main": "apps/ntuadt-api/src/main.ts",
+            "tsConfig": "apps/ntuadt-api/tsconfig.app.json",
+            "assets": ["apps/ntuadt-api/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/ntuadt-api/src/environments/environment.ts",
+                  "with": "apps/ntuadt-api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "ntuadt-api:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/ntuadt-api/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/ntuadt-api"],
+          "options": {
+            "jestConfig": "apps/ntuadt-api/jest.config.js",
             "passWithNoTests": true
           }
         }
