@@ -6,8 +6,13 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('hello')
+  @Get('bus242')
   getData(): Promise<Array<BusPosition>> {
     return this.appService.busPosition();
+  }
+
+  @Get('itia')
+  getItia() {
+    return this.appService.itia();
   }
 }

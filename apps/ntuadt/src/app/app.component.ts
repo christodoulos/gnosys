@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.chart1();
+    this.chart3();
   }
 
   lngLat(_stop: string): [number, number] {
@@ -79,6 +79,12 @@ export class AppComponent implements OnInit {
   chart3() {
     this.http
       .get('assets/basentuamap.html', { responseType: 'text' })
+      .subscribe((data) => (this.srcdoc = data));
+  }
+
+  chart4() {
+    this.http
+      .get('assets/itia.html', { responseType: 'text' })
       .subscribe((data) => (this.srcdoc = data));
   }
 }

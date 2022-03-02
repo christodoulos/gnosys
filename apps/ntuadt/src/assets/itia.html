@@ -37,9 +37,9 @@
         container: 'map',
         style: 'mapbox://styles/christodoulos/ckzichi5q001l15p1wpq6sbvs',
         // style: 'mapbox://styles/mapbox/light-v10',
-        center: [23.782529708901464, 37.97732290332949],
-        // center: [23.78743, 37.97385],
-        zoom: 15.5,
+        // center: [23.782529708901464, 37.97732290332949],
+        center: [23.78743, 37.97385],
+        zoom: 18,
         pitch: 45,
         bearing: -17.6,
         antialias: true,
@@ -243,7 +243,7 @@
                 properties: {
                   id: '669',
                   description:
-                    '<strong>Baromatric Preassure Sensor</strong><p>Timestamp: Loading...</p><p>Measurement: Loading...</p>',
+                    '<strong>Baromatric Preassure Sensor</strong><p>Timestamp: Loading... </p><p>Measurement: Loading...</p>',
                 },
                 geometry: {
                   type: 'Point',
@@ -269,7 +269,7 @@
             if (updateItia) clearInterval(updateItia);
             throw new Error(err);
           }
-        }, 5000);
+        }, 2000);
 
         map.addLayer({
           id: 'itia',
