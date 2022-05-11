@@ -46,7 +46,7 @@ export class StrengthenComponent implements OnInit {
   });
 
   form2 = new FormGroup({
-    pillars: new FormControl('8', [
+    columns: new FormControl('8', [
       Validators.required,
       Validators.pattern(this.numberRegEx),
     ]),
@@ -76,7 +76,7 @@ export class StrengthenComponent implements OnInit {
 
   ngOnInit(): void {
     this.genPillarData();
-    this.form2.controls.pillars.valueChanges
+    this.form2.controls.columns.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
         if (this.form2.valid) {

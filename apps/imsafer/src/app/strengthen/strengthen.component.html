@@ -17,7 +17,7 @@
 
     <ng-container *ngFor="let pillar of formpillar; index as i">
       <div class="flex space-x-2 items-center">
-        <span class="font-medium">Pillar {{ i + 1 }} Data:</span>
+        <span class="font-medium">Column {{ i + 1 }} Data:</span>
         <form-simple-left-to-right
           [formGroup]="pillar"
           [tooltips]="tooltips"
